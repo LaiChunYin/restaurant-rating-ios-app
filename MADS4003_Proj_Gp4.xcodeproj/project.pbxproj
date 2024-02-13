@@ -14,6 +14,21 @@
 		FADECB412B75C0DF004F4346 /* MADS4003_Proj_Gp4Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FADECB402B75C0DF004F4346 /* MADS4003_Proj_Gp4Tests.swift */; };
 		FADECB4B2B75C0DF004F4346 /* MADS4003_Proj_Gp4UITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FADECB4A2B75C0DF004F4346 /* MADS4003_Proj_Gp4UITests.swift */; };
 		FADECB4D2B75C0DF004F4346 /* MADS4003_Proj_Gp4UITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FADECB4C2B75C0DF004F4346 /* MADS4003_Proj_Gp4UITestsLaunchTests.swift */; };
+		FADECB5B2B77BF80004F4346 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FADECB5A2B77BF80004F4346 /* LoginView.swift */; };
+		FADECB5F2B77C22D004F4346 /* SignupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FADECB5E2B77C22D004F4346 /* SignupView.swift */; };
+		FADECB612B77C25C004F4346 /* RestaurantDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FADECB602B77C25C004F4346 /* RestaurantDetailView.swift */; };
+		FADECB632B77C26A004F4346 /* RestaurantListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FADECB622B77C26A004F4346 /* RestaurantListView.swift */; };
+		FADECB652B77C280004F4346 /* RestaurantViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FADECB642B77C280004F4346 /* RestaurantViewModel.swift */; };
+		FADECB672B77E201004F4346 /* Restaurant.swift in Sources */ = {isa = PBXBuildFile; fileRef = FADECB662B77E201004F4346 /* Restaurant.swift */; };
+		FADECB6C2B780848004F4346 /* UserViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FADECB6B2B780848004F4346 /* UserViewModel.swift */; };
+		FADECB6E2B7808EC004F4346 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = FADECB6D2B7808EC004F4346 /* User.swift */; };
+		FADECB702B78094E004F4346 /* Menu.swift in Sources */ = {isa = PBXBuildFile; fileRef = FADECB6F2B78094E004F4346 /* Menu.swift */; };
+		FADECB722B781D60004F4346 /* Errors.swift in Sources */ = {isa = PBXBuildFile; fileRef = FADECB712B781D60004F4346 /* Errors.swift */; };
+		FADECB742B797229004F4346 /* RestaurantItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FADECB732B797229004F4346 /* RestaurantItemView.swift */; };
+		FADECB7A2B79853B004F4346 /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = FADECB792B79853B004F4346 /* Alamofire */; };
+		FADECB7D2B798544004F4346 /* SwiftyJSON in Frameworks */ = {isa = PBXBuildFile; productRef = FADECB7C2B798544004F4346 /* SwiftyJSON */; };
+		FADECB802B7A0250004F4346 /* FavListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FADECB7F2B7A0250004F4346 /* FavListView.swift */; };
+		FADECB822B7A0272004F4346 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FADECB812B7A0272004F4346 /* MainView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -44,6 +59,19 @@
 		FADECB462B75C0DF004F4346 /* MADS4003_Proj_Gp4UITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MADS4003_Proj_Gp4UITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		FADECB4A2B75C0DF004F4346 /* MADS4003_Proj_Gp4UITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MADS4003_Proj_Gp4UITests.swift; sourceTree = "<group>"; };
 		FADECB4C2B75C0DF004F4346 /* MADS4003_Proj_Gp4UITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MADS4003_Proj_Gp4UITestsLaunchTests.swift; sourceTree = "<group>"; };
+		FADECB5A2B77BF80004F4346 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
+		FADECB5E2B77C22D004F4346 /* SignupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignupView.swift; sourceTree = "<group>"; };
+		FADECB602B77C25C004F4346 /* RestaurantDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RestaurantDetailView.swift; sourceTree = "<group>"; };
+		FADECB622B77C26A004F4346 /* RestaurantListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RestaurantListView.swift; sourceTree = "<group>"; };
+		FADECB642B77C280004F4346 /* RestaurantViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RestaurantViewModel.swift; sourceTree = "<group>"; };
+		FADECB662B77E201004F4346 /* Restaurant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Restaurant.swift; sourceTree = "<group>"; };
+		FADECB6B2B780848004F4346 /* UserViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserViewModel.swift; sourceTree = "<group>"; };
+		FADECB6D2B7808EC004F4346 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
+		FADECB6F2B78094E004F4346 /* Menu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Menu.swift; sourceTree = "<group>"; };
+		FADECB712B781D60004F4346 /* Errors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Errors.swift; sourceTree = "<group>"; };
+		FADECB732B797229004F4346 /* RestaurantItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RestaurantItemView.swift; sourceTree = "<group>"; };
+		FADECB7F2B7A0250004F4346 /* FavListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavListView.swift; sourceTree = "<group>"; };
+		FADECB812B7A0272004F4346 /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -51,6 +79,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FADECB7D2B798544004F4346 /* SwiftyJSON in Frameworks */,
+				FADECB7A2B79853B004F4346 /* Alamofire in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -95,7 +125,10 @@
 			isa = PBXGroup;
 			children = (
 				FADECB2F2B75C0DD004F4346 /* MADS4003_Proj_Gp4App.swift */,
-				FADECB312B75C0DD004F4346 /* ContentView.swift */,
+				FADECB712B781D60004F4346 /* Errors.swift */,
+				FADECB692B7806C3004F4346 /* Views */,
+				FADECB6A2B7806CB004F4346 /* ViewModels */,
+				FADECB682B7806BB004F4346 /* Models */,
 				FADECB332B75C0DF004F4346 /* Assets.xcassets */,
 				FADECB352B75C0DF004F4346 /* Preview Content */,
 			);
@@ -127,6 +160,41 @@
 			path = MADS4003_Proj_Gp4UITests;
 			sourceTree = "<group>";
 		};
+		FADECB682B7806BB004F4346 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				FADECB662B77E201004F4346 /* Restaurant.swift */,
+				FADECB6F2B78094E004F4346 /* Menu.swift */,
+				FADECB6D2B7808EC004F4346 /* User.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		FADECB692B7806C3004F4346 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				FADECB312B75C0DD004F4346 /* ContentView.swift */,
+				FADECB7F2B7A0250004F4346 /* FavListView.swift */,
+				FADECB5A2B77BF80004F4346 /* LoginView.swift */,
+				FADECB812B7A0272004F4346 /* MainView.swift */,
+				FADECB602B77C25C004F4346 /* RestaurantDetailView.swift */,
+				FADECB622B77C26A004F4346 /* RestaurantListView.swift */,
+				FADECB732B797229004F4346 /* RestaurantItemView.swift */,
+				FADECB5E2B77C22D004F4346 /* SignupView.swift */,
+			);
+			name = Views;
+			path = Models/Views;
+			sourceTree = "<group>";
+		};
+		FADECB6A2B7806CB004F4346 /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				FADECB642B77C280004F4346 /* RestaurantViewModel.swift */,
+				FADECB6B2B780848004F4346 /* UserViewModel.swift */,
+			);
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -143,6 +211,10 @@
 			dependencies = (
 			);
 			name = MADS4003_Proj_Gp4;
+			packageProductDependencies = (
+				FADECB792B79853B004F4346 /* Alamofire */,
+				FADECB7C2B798544004F4346 /* SwiftyJSON */,
+			);
 			productName = MADS4003_Proj_Gp4;
 			productReference = FADECB2C2B75C0DD004F4346 /* MADS4003_Proj_Gp4.app */;
 			productType = "com.apple.product-type.application";
@@ -215,6 +287,10 @@
 				Base,
 			);
 			mainGroup = FADECB232B75C0DD004F4346;
+			packageReferences = (
+				FADECB782B79853B004F4346 /* XCRemoteSwiftPackageReference "Alamofire" */,
+				FADECB7B2B798544004F4346 /* XCRemoteSwiftPackageReference "SwiftyJSON" */,
+			);
 			productRefGroup = FADECB2D2B75C0DD004F4346 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -257,7 +333,20 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FADECB5F2B77C22D004F4346 /* SignupView.swift in Sources */,
+				FADECB612B77C25C004F4346 /* RestaurantDetailView.swift in Sources */,
+				FADECB652B77C280004F4346 /* RestaurantViewModel.swift in Sources */,
+				FADECB5B2B77BF80004F4346 /* LoginView.swift in Sources */,
+				FADECB722B781D60004F4346 /* Errors.swift in Sources */,
+				FADECB672B77E201004F4346 /* Restaurant.swift in Sources */,
+				FADECB702B78094E004F4346 /* Menu.swift in Sources */,
+				FADECB632B77C26A004F4346 /* RestaurantListView.swift in Sources */,
 				FADECB322B75C0DD004F4346 /* ContentView.swift in Sources */,
+				FADECB6C2B780848004F4346 /* UserViewModel.swift in Sources */,
+				FADECB802B7A0250004F4346 /* FavListView.swift in Sources */,
+				FADECB6E2B7808EC004F4346 /* User.swift in Sources */,
+				FADECB742B797229004F4346 /* RestaurantItemView.swift in Sources */,
+				FADECB822B7A0272004F4346 /* MainView.swift in Sources */,
 				FADECB302B75C0DD004F4346 /* MADS4003_Proj_Gp4App.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -582,6 +671,38 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		FADECB782B79853B004F4346 /* XCRemoteSwiftPackageReference "Alamofire" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Alamofire/Alamofire.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.8.1;
+			};
+		};
+		FADECB7B2B798544004F4346 /* XCRemoteSwiftPackageReference "SwiftyJSON" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/SwiftyJSON/SwiftyJSON.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.0.1;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		FADECB792B79853B004F4346 /* Alamofire */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = FADECB782B79853B004F4346 /* XCRemoteSwiftPackageReference "Alamofire" */;
+			productName = Alamofire;
+		};
+		FADECB7C2B798544004F4346 /* SwiftyJSON */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = FADECB7B2B798544004F4346 /* XCRemoteSwiftPackageReference "SwiftyJSON" */;
+			productName = SwiftyJSON;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = FADECB242B75C0DD004F4346 /* Project object */;
 }

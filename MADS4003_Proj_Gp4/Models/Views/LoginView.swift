@@ -122,19 +122,19 @@ struct LoginView: View {
                             .buttonStyle(.borderedProminent)
                         }
                     }
-                    
                     .foregroundStyle(.white)
                     .padding()
                     .background(.ultraThinMaterial.opacity(1))
                     .clipShape(.rect(cornerRadius: 15))
                     .frame(width: geo.size.width/1.2)
                 }
-                .ignoresSafeArea()
                 .navigationTitle("Restaurant App")
                 .tint(.orange)
+                .ignoresSafeArea()
             }
         }
         .preferredColorScheme(/*@START_MENU_TOKEN@*/.dark/*@END_MENU_TOKEN@*/)
+        .edgesIgnoringSafeArea(.all)
 
     }
 }

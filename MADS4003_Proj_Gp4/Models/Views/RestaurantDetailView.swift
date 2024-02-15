@@ -45,23 +45,23 @@ struct RestaurantDetailView: View {
     var body: some View {
         ScrollView {
             VStack {
-                ForEach(restaurant.photoUrls ?? [], id: \.self) { imageUrl in
-                    AsyncImage(url: imageUrl){ phase in
-                        
-                        switch phase{
-                        case .success(let image):
-                            image.resizable()
-                            .scaledToFit()
-                            .frame(width: 50, height: 50)
-                        
-                        default:
-                            Image(systemName: "broken_image")
-                                .onAppear(){
-                                    print("\(#function) cannot show image")
-                                }
-                        }
-                    }
-                }
+//                ForEach(restaurant.photoUrls ?? [], id: \.self) { imageUrl in
+//                    AsyncImage(url: imageUrl){ phase in
+//                        
+//                        switch phase{
+//                        case .success(let image):
+//                            image.resizable()
+//                            .scaledToFit()
+//                            .frame(width: 200, height: 50)
+//                        
+//                        default:
+//                            Image(systemName: "broken_image")
+//                                .onAppear(){
+//                                    print("\(#function) cannot show image")
+//                                }
+//                        }
+//                    }
+//                }
 //                TabView(selection: $currentIndex) {
 ////                    ForEach(images.indices, id: \.self) { index in
 ////                        images[index]
@@ -118,7 +118,7 @@ struct RestaurantDetailView: View {
                 //            }
                 
                 
-                Spacer()
+//                Spacer()
                 
                 
                 

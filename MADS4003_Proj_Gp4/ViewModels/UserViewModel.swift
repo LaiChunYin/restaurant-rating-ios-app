@@ -315,10 +315,6 @@ class UserViewModel: ObservableObject {
         }
     }
     
-    func comment(restaurant: Restaurant, comment: String) {
-        
-    }
-    
     
 //    // for preview testing
 //    init() {

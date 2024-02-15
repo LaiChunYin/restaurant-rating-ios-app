@@ -17,6 +17,7 @@ struct RestaurantDetailView: View {
     @State var rating = 0
     @State private var currentIndex: Int = 0
     @State private var averageRating: String = "No Data"
+    @State private var comment: String = ""
     private let images: [Image] = [Image(.restaurant1), Image(.restaurant2), Image(.restaurant3)]
 
     struct OpeningHoursView: View {
@@ -162,7 +163,21 @@ struct RestaurantDetailView: View {
                         Text("\(weekDays[key]!): \(restaurant.openingHours?[key] ?? "Close")")
                     }
                     
-                    
+                    if(!restaurant.comments.isEmpty) {
+                        VStack {
+                            Text("Users' Comments:")
+                                .font(.headline)
+                                .foregroundColor(.blue)
+                            
+                            ForEach(restaurant.comments.keys.map {$0}, id: \.self) { commenter in
+                                
+                                HStack(alignment: .top) {
+                                    Text("\(commenter)")
+                                    Text("\(restaurant.comments[commenter]!)")
+                                }
+                            }
+                        }
+                    }
                 }.padding()
                     
                 
@@ -188,23 +203,14 @@ struct RestaurantDetailView: View {
                 Text("Average rating by users: \(averageRating)")
                     .fontWeight(.light)
                     .foregroundColor(.gray)
-                
-                CommentSectionView()
-                
-                if(!restaurant.comments.isEmpty) {
-                    VStack {
-                        Text("Users' Comments:")
-                            .font(.headline)
-                            .foregroundColor(.blue)
-                        
-                        ForEach(restaurant.comments.keys.map {$0}, id: \.self) { commenter in
-                            
-                            HStack {
-                                Text("\(commenter)")
-                                Text("\(restaurant.comments[commenter]!)")
-                            }
-                        }
-                    }
+            
+            
+                CommentSectionView(comment: $comment)
+                Button {
+                    restaurantViewModel.comment(restaurant: restaurant, comment: comment, username: userViewModel.currentUser!.username)
+                    comment = ""
+                } label: {
+                    Text("Submit")
                 }
                 
                 Spacer()
@@ -297,7 +303,8 @@ struct StarRatingView: View {
 }
 
 struct CommentSectionView: View {
-    @State private var comment: String = ""
+//    @State private var comment: String = ""
+    @Binding var comment: String
     @State private var isTappedOnRating: Bool = false
     
     var body: some View {

@@ -206,4 +206,21 @@ class RestaurantViewModel: ObservableObject {
 //        }
     }
     
+    func comment(restaurant: Restaurant, comment: String, username: String) {
+        var allComments = restaurant.comments
+        allComments[username] = comment
+        restaurant.comments = allComments
+        
+        print("before comments and ratings \(comments_and_ratings)")
+        comments_and_ratings[restaurant.id] = ["number_of_raters": restaurant.numOfRaters, "total_rating": restaurant.totalRatings, "comments": restaurant.comments]
+        print("after comments and ratings \(comments_and_ratings)")
+        
+
+        if let data = try? JSONSerialization.data(withJSONObject: comments_and_ratings, options: []) {
+            UserDefaults.standard.set(data, forKey: "COMMENTS_AND_RATINGS")
+            print("saved comments and ratings")
+        }
+    }
+    
+    
 }

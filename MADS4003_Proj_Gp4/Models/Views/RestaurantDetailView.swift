@@ -16,7 +16,7 @@ struct RestaurantDetailView: View {
     @State private var averageRating: String = "No Data"
     @State private var comment: String = ""
     private let images: [Image] = [Image(.restaurant1), Image(.restaurant2), Image(.restaurant3)]
-
+    
     struct OpeningHoursView: View {
         let openingHours: [String: String] = [
             "Monday": "10:00 AM - 4:00 PM",
@@ -37,193 +37,216 @@ struct RestaurantDetailView: View {
             }
         }
     }
-
+    
     
     var body: some View {
         ScrollView {
             VStack {
-                Text("\(restaurant.name)")
-                    .font(.title)
-                    .fontWeight(.semibold)
-                    .multilineTextAlignment(.center)
-                
-                VStack(alignment: .leading, spacing: 10) {
-                    Text("Address:")
-                        .font(.headline)
-                        .foregroundColor(.blue)
-                    Text(restaurant.location)
-                        .font(.body)
-                    
-                    Text("Category:")
-                        .font(.headline)
-                        .foregroundColor(.blue)
-                    Text(restaurant.category)
-                        .font(.body)
-                    
-                    if restaurant.price != nil {
-                        Text("Price:")
-                            .font(.headline)
-                            .foregroundColor(.blue)
-                        Text(restaurant.price!)
-                            .font(.body)
-                    }
-                
-                    
-                    
-                    Divider()
-                    
-                    Text("Opening Hours:")
-                        .font(.headline)
-                        .foregroundColor(.blue)
-                    
-                    ForEach(weekDays.keys.sorted(), id: \.self) { key in
-                        Text("\(weekDays[key]!): \(restaurant.openingHours?[key] ?? "Close")")
-                    }
-                    
-                    if(!restaurant.comments.isEmpty) {
-                        VStack {
-                            Text("Users' Comments:")
-                                .font(.headline)
-                                .foregroundColor(.blue)
-                            
-                            ForEach(restaurant.comments.keys.map {$0}, id: \.self) { commenter in
+                VStack {
+                    HStack {
+                        ForEach(restaurant.photoUrls ?? [], id: \.self) { imageUrl in
+                            AsyncImage(url: imageUrl){ phase in
                                 
-                                HStack(alignment: .top) {
-                                    Text("\(commenter)")
-                                    Text("\(restaurant.comments[commenter]!)")
+                                switch phase{
+                                case .success(let image):
+                                    image.resizable()
+                                        .scaledToFit()
+                                        .frame(width: UIScreen.main.bounds.width * 0.3, height: 100)
+                                    
+                                default:
+                                    Image(systemName: "broken_image")
+                                        .onAppear(){
+                                            print("\(#function) cannot show image")
+                                        }
                                 }
                             }
                         }
-                    }
-                }.padding()
+                    }.padding(0)
                     
-                
-                StarRatingView(rating: $rating, maxRating: 5)
-                    .padding()
-                    .onChange(of: rating) {
-                        restaurantViewModel.rate(restaurant: restaurant, rating: rating, currentUser: userViewModel.currentUser)
-                        userViewModel.rate(restaurant: restaurant, rating: rating, currentUser: userViewModel.currentUser)
-          
+                    
+                    Text("\(restaurant.name)")
+                        .font(.title)
+                        .fontWeight(.semibold)
+                        .multilineTextAlignment(.center)
+                    
+                    VStack(alignment: .leading, spacing: 10) {
+                        Text("Address:")
+                            .font(.headline)
+                            .foregroundColor(.blue)
+                        Text(restaurant.location)
+                            .font(.body)
                         
-                        averageRating = restaurant.numOfRaters != 0 ? String(format: "%.1f", Double(restaurant.totalRatings) / Double(restaurant.numOfRaters)) : "No data"
+                        Text("Category:")
+                            .font(.headline)
+                            .foregroundColor(.blue)
+                        Text(restaurant.category)
+                            .font(.body)
                         
-                    }
-                
-                Text("Average rating by users: \(averageRating)")
-                    .fontWeight(.light)
-                    .foregroundColor(.gray)
-            
-            
-                CommentSectionView(comment: $comment)
-                Button {
-                    restaurantViewModel.comment(restaurant: restaurant, comment: comment, username: userViewModel.currentUser!.username)
-                    comment = ""
-                } label: {
-                    Text("Submit")
-                }
-                
-                Spacer()
-                
-                
-                HStack {
-                    if restaurant.restaurantUrl != nil {
-                        ShareLink(item: restaurant.restaurantUrl!) {
-                            Label(restaurant.name, systemImage: "swift")
+                        if restaurant.price != nil && restaurant.price != "" {
+                            Text("Price:")
+                                .font(.headline)
+                                .foregroundColor(.blue)
+                            Text(restaurant.price!)
+                                .font(.body)
                         }
+                        
+                        
+                        
+                        Divider()
+                        
+                        Text("Opening Hours:")
+                            .font(.headline)
+                            .foregroundColor(.blue)
+                        
+                        ForEach(weekDays.keys.sorted(), id: \.self) { key in
+                            Text("\(weekDays[key]!): \(restaurant.openingHours?[key] ?? "Close")")
+                        }
+                        
+                        if(!restaurant.comments.isEmpty) {
+                            VStack {
+                                Text("Users' Comments:")
+                                    .font(.headline)
+                                    .foregroundColor(.blue)
+                                
+                                ForEach(restaurant.comments.keys.map {$0}, id: \.self) { commenter in
+                                    
+                                    HStack(alignment: .top) {
+                                        Text("\(commenter)")
+                                        Text("\(restaurant.comments[commenter]!)")
+                                    }
+                                }
+                            }
+                        }
+                    }.padding()
+                    
+                    
+                    StarRatingView(rating: $rating, maxRating: 5)
+                        .padding()
+                        .onChange(of: rating) {
+                            restaurantViewModel.rate(restaurant: restaurant, rating: rating, currentUser: userViewModel.currentUser)
+                            userViewModel.rate(restaurant: restaurant, rating: rating, currentUser: userViewModel.currentUser)
+                            
+                            
+                            averageRating = restaurant.numOfRaters != 0 ? String(format: "%.1f", Double(restaurant.totalRatings) / Double(restaurant.numOfRaters)) : "No data"
+                            
+                        }
+                    
+                    Text("Average rating by users: \(averageRating)")
+                        .fontWeight(.light)
+                        .foregroundColor(.gray)
+                    
+                    
+                    CommentSectionView(comment: $comment)
+                    Button {
+                        restaurantViewModel.comment(restaurant: restaurant, comment: comment, username: userViewModel.currentUser!.username)
+                        comment = ""
+                    } label: {
+                        Text("Submit")
                     }
                     
                     Spacer()
                     
-                    if !userViewModel.currentUser!.favRestaurants.map({$0.id}).contains(restaurant.id) {
-                        Button {
-                            userViewModel.addToFav(restaurant: restaurant)
-                        } label: {
-                            Text("Favourite")
-                            Image(systemName: "star.fill")
-                                .foregroundColor(.yellow)
+                    
+                    HStack {
+                        if restaurant.restaurantUrl != nil {
+                            ShareLink(item: restaurant.restaurantUrl!) {
+                                Label(restaurant.name, systemImage: "swift")
+                            }
                         }
-                        .buttonStyle(.borderedProminent)
-                        .tint(.orange)
-                    }
-                    else {
-                        Button {
-                            userViewModel.removeFromFav(restaurants: [restaurant])
-                        } label: {
-                            Text("Remove From Fav")
-                            Image(systemName: "star")
-                                .foregroundColor(.yellow)
+                        
+                        Spacer()
+                        
+                        if !userViewModel.currentUser!.favRestaurants.map({$0.id}).contains(restaurant.id) {
+                            Button {
+                                userViewModel.addToFav(restaurant: restaurant)
+                            } label: {
+                                Text("Favourite")
+                                Image(systemName: "star.fill")
+                                    .foregroundColor(.yellow)
+                            }
+                            .buttonStyle(.borderedProminent)
+                            .tint(.orange)
                         }
-                        .buttonStyle(.borderedProminent)
-                        .tint(.red)
+                        else {
+                            Button {
+                                userViewModel.removeFromFav(restaurants: [restaurant])
+                            } label: {
+                                Text("Remove From Fav")
+                                Image(systemName: "star")
+                                    .foregroundColor(.yellow)
+                            }
+                            .buttonStyle(.borderedProminent)
+                            .tint(.red)
+                        }
+                        
                     }
+                    .padding(.horizontal, 40)
                     
                 }
-                .padding(.horizontal, 40)
+                .padding(.bottom, 40)
                 
             }
-            .padding(.bottom, 40)
-            
+            .onAppear(){
+                restaurantViewModel.getRestaurantDetails(restaurant: restaurant)
+                averageRating = restaurant.numOfRaters != 0 ? String(restaurant.totalRatings / restaurant.numOfRaters) : "No data"
+                
+            }
         }
-        .onAppear(){
-            restaurantViewModel.getRestaurantDetails(restaurant: restaurant)
-            averageRating = restaurant.numOfRaters != 0 ? String(restaurant.totalRatings / restaurant.numOfRaters) : "No data"
-            
+        
+    }
+    
+    
+    
+    struct RestaurantDetailView_Previews: PreviewProvider {
+        static var previews: some View {
+            RestaurantDetailView(restaurant: Restaurant())
         }
     }
     
-}
-
-
-
-struct RestaurantDetailView_Previews: PreviewProvider {
-    static var previews: some View {
-        RestaurantDetailView(restaurant: Restaurant())
-    }
-}
-
-struct StarRatingView: View {
-    @Binding var rating: Int
-    let maxRating: Int
-    
-    var body: some View {
-        HStack {
-            ForEach(1...maxRating, id: \.self) { index in
-                Image(systemName: index <= rating ? "star.fill" : "star")
-                    .foregroundColor(index <= rating ? .yellow : .gray)
-                    .font(.title)
-                    .onTapGesture {
-                        self.rating = index
-                    }
+    struct StarRatingView: View {
+        @Binding var rating: Int
+        let maxRating: Int
+        
+        var body: some View {
+            HStack {
+                ForEach(1...maxRating, id: \.self) { index in
+                    Image(systemName: index <= rating ? "star.fill" : "star")
+                        .foregroundColor(index <= rating ? .yellow : .gray)
+                        .font(.title)
+                        .onTapGesture {
+                            self.rating = index
+                        }
+                }
             }
         }
     }
-}
-
-struct CommentSectionView: View {
-    @Binding var comment: String
-    @State private var isTappedOnRating: Bool = false
     
-    var body: some View {
-        VStack {
-            Text("Leave a Comment:")
-                .font(.headline)
-            TextEditor(text: $comment)
-                .frame(height: 100)
-                .border(Color.gray, width: 1)
-                .padding()
-                .onTapGesture {
-                    if !isTappedOnRating {
-                        UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
-                    }
-                }
-                .contentShape(Rectangle())
-                .gesture(
-                    TapGesture()
-                        .onEnded { _ in
-                            isTappedOnRating = false
+    struct CommentSectionView: View {
+        @Binding var comment: String
+        @State private var isTappedOnRating: Bool = false
+        
+        var body: some View {
+            VStack {
+                Text("Leave a Comment:")
+                    .font(.headline)
+                TextEditor(text: $comment)
+                    .frame(height: 100)
+                    .border(Color.gray, width: 1)
+                    .padding()
+                    .onTapGesture {
+                        if !isTappedOnRating {
+                            UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
                         }
-                )
+                    }
+                    .contentShape(Rectangle())
+                    .gesture(
+                        TapGesture()
+                            .onEnded { _ in
+                                isTappedOnRating = false
+                            }
+                    )
+            }
+            
         }
-
     }
 }

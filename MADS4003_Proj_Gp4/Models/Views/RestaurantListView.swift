@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct RestaurantListView: View {
-//    @ObservedObject private var restaurantViewModel = RestaurantViewModel()
+    @EnvironmentObject private var userViewModel: UserViewModel
     @EnvironmentObject private var restaurantViewModel: RestaurantViewModel
     @State private var searchText: String = ""
     
@@ -29,9 +29,6 @@ struct RestaurantListView: View {
             }
             .searchable(text: $searchText)
             .autocorrectionDisabled()
-        }
-        .onAppear(){
-            print("getting from api")
         }
     }
 }

@@ -8,26 +8,54 @@
 import SwiftUI
 
 struct MainView: View {
+    @EnvironmentObject var userViewModel: UserViewModel
+    @State private var showAlert: Bool = false
+    @State private var logoutResult: Result? = nil
+    
     var body: some View {
         
-        VStack {
-            Text("Main View")
-            
+        NavigationStack {
             TabView {
                 RestaurantListView().tabItem {
-                    Image(systemName: "explore")
+                    Image(systemName: "magnifyingglass.circle.fill")
                         .foregroundColor(.blue)
                     
                     Text("Explore")
                 }
                 
                 FavListView().tabItem {
-                    Image(systemName: "favorite")
+                    Image(systemName: "heart.circle.fill")
                         .foregroundColor(.blue)
                     
                     Text("My Favorites")
                 }
             }
+            .toolbar {
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    Menu {
+                        Button {
+                            logoutResult = userViewModel.logout()
+                            showAlert = true
+                        } label: {
+                            Text("Logout")
+                        }
+                    } label: {
+                        Label("More", systemImage: "ellipsis.circle")
+                    }
+                }
+            }
+            .alert(isPresented: $showAlert) {
+                let msg: String
+                switch logoutResult {
+                    case .success:
+                        msg = "Logout Sucessful"
+                    default:
+                        msg = "Logout Failed"
+                 }
+                return Alert(title: Text("Logout"), message: Text(msg))
+                
+            }
+            .navigationTitle("Welcome!")
         }
         
     }

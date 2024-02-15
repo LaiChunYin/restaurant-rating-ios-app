@@ -57,12 +57,11 @@ struct RestaurantDetailView: View {
                             
                             switch phase{
                             case .success(let image):
-                                image
-                                    .resizable()
-                                    .scaledToFit()
-                                    .frame(width: 50, height: 50)
+                                image.resizable()
+                                .scaledToFit()
+                                .frame(width: 50, height: 50)
                             
-                            @unknown default:
+                            default:
                                 Image(systemName: "broken_image")
                                     .onAppear(){
                                         print("\(#function) cannot show image")
@@ -179,15 +178,28 @@ struct RestaurantDetailView: View {
                     
                     Spacer()
                     
-                    Button {
-                        userViewModel.addToFav(restaurant: restaurant)
-                    } label: {
-                        Text("Favourite")
-                        Image(systemName: "star.fill")
-                            .foregroundColor(.yellow)
+                    if !userViewModel.currentUser!.favRestaurants.map({$0.id}).contains(restaurant.id) {
+                        Button {
+                            userViewModel.addToFav(restaurant: restaurant)
+                        } label: {
+                            Text("Favourite")
+                            Image(systemName: "star.fill")
+                                .foregroundColor(.yellow)
+                        }
+                        .buttonStyle(.borderedProminent)
+                        .tint(.orange)
                     }
-                    .buttonStyle(.borderedProminent)
-                    .tint(.orange)
+                    else {
+                        Button {
+                            userViewModel.removeFromFav(restaurants: [restaurant])
+                        } label: {
+                            Text("Remove From Fav")
+                            Image(systemName: "star")
+                                .foregroundColor(.yellow)
+                        }
+                        .buttonStyle(.borderedProminent)
+                        .tint(.red)
+                    }
                     
                 }
                 .padding(.horizontal, 40)

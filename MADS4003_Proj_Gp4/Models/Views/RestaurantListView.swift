@@ -13,7 +13,6 @@ struct RestaurantListView: View {
     @State private var searchText: String = ""
     
     var filteredRestaurant: [Restaurant] {
-        print("searching for: \(searchText)")
         return restaurantViewModel.searchRestaurants(for: searchText)
     }
     
@@ -36,7 +35,6 @@ struct RestaurantListView: View {
 
 struct RestaurantListView_Previews: PreviewProvider {
     static var previews: some View {
-//        RestaurantListView()
         RestaurantListView().environmentObject(RestaurantViewModel())
     }
 }

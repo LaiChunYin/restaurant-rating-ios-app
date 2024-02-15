@@ -10,7 +10,6 @@ import SwiftUI
 struct ContentView: View {
     @StateObject var userViewModel = UserViewModel()
     @StateObject var restaurantViewModel = RestaurantViewModel()
-//    @State private var currentUser: [String: [String: Any]]? = nil
     
     var body: some View {
         VStack {

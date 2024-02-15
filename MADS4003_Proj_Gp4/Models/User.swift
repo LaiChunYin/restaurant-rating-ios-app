@@ -29,21 +29,6 @@ class User: ObservableObject {
         self.restaurantRatings = data["ratings"] as? [String: Int] ?? [:]
     }
     
-//    init(userDict: [String: Any]) {
-//        self.username = userDict.keys.first!
-//        self.password = (userDict[self.username] as! [String: Any])["password"] as! String
-//        self.rememberMe = (userDict[self.username] as! [String: Any])["rememberMe"] as! Bool
-//        self.favRestaurants = userDict["fav_restaurants"] as! [Restaurant]
-//    }
-    
-    func addToFavRestaurant() {
-        
-    }
-    
-    
-    func removeFavRestaurant() {
-        
-    }
     
     
     // for preview testing

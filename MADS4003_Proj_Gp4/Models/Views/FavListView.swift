@@ -9,9 +9,7 @@ import SwiftUI
 
 struct FavListView: View {
     @State private var searchText: String = ""
-//    @ObservedObject var userViewModel = UserViewModel()
     @EnvironmentObject var userViewModel: UserViewModel
-//    @ObservedObject var currentUser: User
     
     var body: some View {
         
@@ -28,7 +26,6 @@ struct FavListView: View {
                 }
                 .onDelete(perform: { indexSet in
                     let favList: [Restaurant] = userViewModel.currentUser!.favRestaurants
-                    print("deleteing \(indexSet), \(favList)")
                     let restaurantsToBeRemoved = indexSet.map { favList[$0] }
                     userViewModel.removeFromFav(restaurants: restaurantsToBeRemoved)
                 })
@@ -37,9 +34,6 @@ struct FavListView: View {
             
         }
 //        .searchable(text: $searchText, prompt: "Search Fav Restaurant")
-        .onAppear(){
-            print("fav list testing \(userViewModel.currentUser?.username) \(userViewModel.currentUser?.favRestaurants)")
-        }
     }
 }
 

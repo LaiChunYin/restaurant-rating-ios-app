@@ -32,8 +32,6 @@ struct SignupView: View {
             
 
             Button {
-                print("login clicked")
-                
                 let signUpResult: Result = userViewModel.signUp(username: username, password: password, confirmPassword: confirmPassword)
                 
                 switch signUpResult {

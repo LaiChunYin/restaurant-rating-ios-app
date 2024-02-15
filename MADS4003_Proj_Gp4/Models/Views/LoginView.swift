@@ -11,7 +11,6 @@ struct LoginView: View {
     @State private var username: String = ""
     @State private var password: String = ""
     @State private var viewSelection: Int? = nil
-//    @ObservedObject private var userViewModel = UserViewModel()
     @EnvironmentObject private var userViewModel: UserViewModel
     @State private var loginError: IdentifiableError? = nil
     @State private var rememberMe: Bool = false
@@ -28,7 +27,7 @@ struct LoginView: View {
                 
                 ZStack{
                     
-                    Image(.imageLogin2)                                       .resizable()
+                    Image(.imageLogin2)                                      .resizable()
                                        .aspectRatio(contentMode: .fill)
                                        .frame(width: geo.size.width, height: geo.size.height)
                                        .edgesIgnoringSafeArea(.all)

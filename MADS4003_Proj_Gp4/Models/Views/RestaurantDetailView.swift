@@ -8,11 +8,8 @@
 import SwiftUI
 
 struct RestaurantDetailView: View {
-//    @ObservedObject var userViewModel = UserViewModel()
-//    @ObservedObject var restaurantViewModel = RestaurantViewModel()
     @EnvironmentObject var userViewModel: UserViewModel
     @EnvironmentObject var restaurantViewModel: RestaurantViewModel
-//    @EnvironmentObject private var restaurant: Restaurant
     @ObservedObject var restaurant: Restaurant
     @State var rating = 0
     @State private var currentIndex: Int = 0
@@ -45,83 +42,6 @@ struct RestaurantDetailView: View {
     var body: some View {
         ScrollView {
             VStack {
-//                ForEach(restaurant.photoUrls ?? [], id: \.self) { imageUrl in
-//                    AsyncImage(url: imageUrl){ phase in
-//                        
-//                        switch phase{
-//                        case .success(let image):
-//                            image.resizable()
-//                            .scaledToFit()
-//                            .frame(width: 200, height: 50)
-//                        
-//                        default:
-//                            Image(systemName: "broken_image")
-//                                .onAppear(){
-//                                    print("\(#function) cannot show image")
-//                                }
-//                        }
-//                    }
-//                }
-//                TabView(selection: $currentIndex) {
-////                    ForEach(images.indices, id: \.self) { index in
-////                        images[index]
-////                            .resizable()
-////                            .aspectRatio(contentMode: .fill)
-////                            .cornerRadius(10)
-////                            .padding()
-////                            .tag(index)
-////                    }
-//                    ForEach(restaurant.photoUrls ?? [], id: \.self) { imageUrl in
-//                        AsyncImage(url: imageUrl){ phase in
-//                            
-//                            switch phase{
-//                            case .success(let image):
-//                                image.resizable()
-//                                .scaledToFit()
-//                                .frame(width: 50, height: 50)
-//                            
-//                            default:
-//                                Image(systemName: "broken_image")
-//                                    .onAppear(){
-//                                        print("\(#function) cannot show image")
-//                                    }
-//                            }
-//                        }
-//                    }
-//                }
-//                .frame(width: .infinity, height: 200)
-//                .tabViewStyle(PageTabViewStyle(indexDisplayMode: .always))
-                
-                //            ForEach(restaurant.photoUrls ?? [], id: \.self) { imageUrl in
-                //                AsyncImage(url: imageUrl){ phase in
-                //
-                //                    switch phase{
-                //                    case .success(let image):
-                //                        image
-                //                            .resizable()
-                //                            .scaledToFit()
-                //                            .frame(width: 50, height: 50)
-                //
-                //                    case .failure:
-                //                        Text("Error")
-                //                            .font(.headline)
-                //
-                //
-                //
-                //                    @unknown default:
-                //                        Image(systemName: "broken_image")
-                //                            .onAppear(){
-                //                                print("\(#function) cannot show image")
-                //                            }
-                //                    }
-                //                }
-                //            }
-                
-                
-//                Spacer()
-                
-                
-                
                 Text("\(restaurant.name)")
                     .font(.title)
                     .fontWeight(.semibold)
@@ -156,9 +76,6 @@ struct RestaurantDetailView: View {
                         .font(.headline)
                         .foregroundColor(.blue)
                     
-                    
-//                    OpeningHoursView()
-//                        .padding(.top, 5)
                     ForEach(weekDays.keys.sorted(), id: \.self) { key in
                         Text("\(weekDays[key]!): \(restaurant.openingHours?[key] ?? "Close")")
                     }
@@ -184,7 +101,6 @@ struct RestaurantDetailView: View {
                 StarRatingView(rating: $rating, maxRating: 5)
                     .padding()
                     .onChange(of: rating) {
-                        print("changing star rating")
                         restaurantViewModel.rate(restaurant: restaurant, rating: rating, currentUser: userViewModel.currentUser)
                         userViewModel.rate(restaurant: restaurant, rating: rating, currentUser: userViewModel.currentUser)
           
@@ -192,13 +108,6 @@ struct RestaurantDetailView: View {
                         averageRating = restaurant.numOfRaters != 0 ? String(format: "%.1f", Double(restaurant.totalRatings) / Double(restaurant.numOfRaters)) : "No data"
                         
                     }
-//                    .onAppear(){
-//                        print("initializing star rating")
-//                        
-//                        if restaurant.numOfRaters != 0 && restaurant.totalRatings != nil {
-//                            rating = restaurant.totalRatings / restaurant.numOfRaters
-//                        }
-//                    }
                 
                 Text("Average rating by users: \(averageRating)")
                     .fontWeight(.light)
@@ -217,15 +126,6 @@ struct RestaurantDetailView: View {
                 
                 
                 HStack {
-//                    Button {
-//                        userViewModel.share()
-//                    } label: {
-//                        Text("Share")
-//                        Image(systemName: "square.and.arrow.up")
-//                            .foregroundColor(.white)
-//                    }
-//                    .buttonStyle(.borderedProminent)
-                    
                     if restaurant.restaurantUrl != nil {
                         ShareLink(item: restaurant.restaurantUrl!) {
                             Label(restaurant.name, systemImage: "swift")
@@ -265,12 +165,9 @@ struct RestaurantDetailView: View {
             
         }
         .onAppear(){
-            print("getting restaurant details: \(restaurant)")
-            
             restaurantViewModel.getRestaurantDetails(restaurant: restaurant)
             averageRating = restaurant.numOfRaters != 0 ? String(restaurant.totalRatings / restaurant.numOfRaters) : "No data"
             
-            print("after update \(restaurant.id), \(restaurant.photoUrls), \(restaurant.openingHours), \(restaurant.totalRatings), \(restaurant.numOfRaters)")
         }
     }
     
@@ -303,7 +200,6 @@ struct StarRatingView: View {
 }
 
 struct CommentSectionView: View {
-//    @State private var comment: String = ""
     @Binding var comment: String
     @State private var isTappedOnRating: Bool = false
     

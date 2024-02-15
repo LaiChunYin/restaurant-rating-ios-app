@@ -43,35 +43,52 @@ struct RestaurantDetailView: View {
     var body: some View {
         ScrollView {
             VStack {
-                TabView(selection: $currentIndex) {
-//                    ForEach(images.indices, id: \.self) { index in
-//                        images[index]
-//                            .resizable()
-//                            .aspectRatio(contentMode: .fill)
-//                            .cornerRadius(10)
-//                            .padding()
-//                            .tag(index)
-//                    }
-                    ForEach(restaurant.photoUrls ?? [], id: \.self) { imageUrl in
-                        AsyncImage(url: imageUrl){ phase in
-                            
-                            switch phase{
-                            case .success(let image):
-                                image.resizable()
-                                .scaledToFit()
-                                .frame(width: 50, height: 50)
-                            
-                            default:
-                                Image(systemName: "broken_image")
-                                    .onAppear(){
-                                        print("\(#function) cannot show image")
-                                    }
-                            }
+                ForEach(restaurant.photoUrls ?? [], id: \.self) { imageUrl in
+                    AsyncImage(url: imageUrl){ phase in
+                        
+                        switch phase{
+                        case .success(let image):
+                            image.resizable()
+                            .scaledToFit()
+                            .frame(width: 50, height: 50)
+                        
+                        default:
+                            Image(systemName: "broken_image")
+                                .onAppear(){
+                                    print("\(#function) cannot show image")
+                                }
                         }
                     }
                 }
-                .frame(width: .infinity, height: 200)
-                .tabViewStyle(PageTabViewStyle(indexDisplayMode: .always))
+//                TabView(selection: $currentIndex) {
+////                    ForEach(images.indices, id: \.self) { index in
+////                        images[index]
+////                            .resizable()
+////                            .aspectRatio(contentMode: .fill)
+////                            .cornerRadius(10)
+////                            .padding()
+////                            .tag(index)
+////                    }
+//                    ForEach(restaurant.photoUrls ?? [], id: \.self) { imageUrl in
+//                        AsyncImage(url: imageUrl){ phase in
+//                            
+//                            switch phase{
+//                            case .success(let image):
+//                                image.resizable()
+//                                .scaledToFit()
+//                                .frame(width: 50, height: 50)
+//                            
+//                            default:
+//                                Image(systemName: "broken_image")
+//                                    .onAppear(){
+//                                        print("\(#function) cannot show image")
+//                                    }
+//                            }
+//                        }
+//                    }
+//                }
+//                .frame(width: .infinity, height: 200)
+//                .tabViewStyle(PageTabViewStyle(indexDisplayMode: .always))
                 
                 //            ForEach(restaurant.photoUrls ?? [], id: \.self) { imageUrl in
                 //                AsyncImage(url: imageUrl){ phase in
@@ -158,7 +175,6 @@ struct RestaurantDetailView: View {
                 
                 Spacer()
                 
-                /* MARK: Share and Favourite Button */
                 
                 HStack {
 //                    Button {

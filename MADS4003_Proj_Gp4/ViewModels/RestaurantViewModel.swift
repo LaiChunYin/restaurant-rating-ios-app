@@ -80,33 +80,44 @@ class RestaurantViewModel: ObservableObject {
                     print("2")
                     let location: String = restaurantJSON["location"]["display_address"].arrayValue.reduce("", {$0 + $1.stringValue})
                     print("3")
+                    let restaurantUrl = try? restaurantJSON["url"].stringValue.asURL()
                     let iconUrl: URL? = restaurantJSON["image_url"].url
                     print("4")
                     let cateogory: String = restaurantJSON["categories"].arrayValue.first!.dictionaryValue["title"]!.stringValue
                     print("5")
                     let photoUrls: [URL] = restaurantJSON["photos"].arrayValue.map {$0.url!}
                     print("6")
-                    let hours = restaurantJSON["hours"].arrayValue.first!.dictionaryValue["open"]!.arrayValue.map {$0.dictionaryValue}
+                let hours = restaurantJSON["hours"].arrayValue.first?.dictionaryValue["open"]!.arrayValue.map {$0.dictionaryValue} ?? []
                     print("7")
                     let price: String = restaurantJSON["price"].stringValue
                 
                     print("json parsed \(name), \(location), \(iconUrl), \(cateogory), \(photoUrls), \(hours), \(price)")
                     
-                    var openingHours: [String: String] = [:]
+//                    var openingHours: [String: String] = [:]
+                    var openingHours: [Int: String] = [:]
                 
                     for hour in hours {
-                        let weekDay = weekDays[hour["day"]!.intValue]!
-                        print("weekday is \(hour), \(weekDay)")
-                        openingHours[weekDay] = "\(hour["start"]) - \(hour["end"])"
+//                        let weekDay = weekDays[hour["day"]!.intValue]!
+//                        print("weekday is \(hour), \(weekDay)")
+                        print("weekday is \(hour)")
+                        openingHours[hour["day"]!.intValue] = "\(hour["start"] ?? "0000") - \(hour["end"] ?? "2400")"
                     }
                 
-                    restaurant.openingHours = openingHours
+//                    restaurant.objectWillChange.send()
+                
+                    restaurant.name = name
+                    restaurant.location = location
+                    restaurant.restaurantUrl = restaurantUrl
+                    restaurant.iconUrl = iconUrl
                     restaurant.photoUrls = photoUrls
+                    restaurant.category = cateogory
+                    restaurant.openingHours = openingHours
                     restaurant.price = price
-//                    return restaurant
+                    
+                    self.restaurants = self.restaurants
                 
                 
-                print(#function, "restaurants - \(restaurant)")
+                print(#function, "restaurants - \(restaurant.openingHours), \(restaurant.photoUrls), \(restaurant.price)")
                 
                 case .failure(let error):
                     print(#function, "Unsuccessful response from server : \(error)")

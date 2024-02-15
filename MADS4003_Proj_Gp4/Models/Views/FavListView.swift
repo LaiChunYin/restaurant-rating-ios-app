@@ -9,18 +9,43 @@ import SwiftUI
 
 struct FavListView: View {
     @State private var searchText: String = ""
+//    @ObservedObject var userViewModel = UserViewModel()
+    @EnvironmentObject var userViewModel: UserViewModel
+//    @ObservedObject var currentUser: User
     
     var body: some View {
         
-        VStack {
-            Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        NavigationStack {
+            List {
+                
+                ForEach(userViewModel.currentUser?.favRestaurants ?? []) { restaurant in
+                    NavigationLink {
+                        RestaurantDetailView(restaurant: restaurant)
+                    } label: {
+                        RestaurantItemView(restaurant: restaurant)
+                    }
+                    
+                }
+                .onDelete(perform: { indexSet in
+                    let favList: [Restaurant] = userViewModel.currentUser!.favRestaurants
+                    print("deleteing \(indexSet), \(favList)")
+                    let restaurantsToBeRemoved = indexSet.map { favList[$0] }
+                    userViewModel.removeFromFav(restaurants: restaurantsToBeRemoved)
+                })
+                
+            }
+            
         }
         .searchable(text: $searchText, prompt: "Search Fav Restaurant")
+        .onAppear(){
+            print("fav list testing \(userViewModel.currentUser?.username) \(userViewModel.currentUser?.favRestaurants)")
+        }
     }
 }
 
 struct FavListView_Previews: PreviewProvider {
     static var previews: some View {
-        FavListView()
+//        FavListView(userViewModel: UserViewModel())
+        FavListView().environmentObject(UserViewModel())
     }
 }

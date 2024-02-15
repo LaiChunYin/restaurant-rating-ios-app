@@ -12,7 +12,8 @@ struct SignupView: View {
     @State private var password: String = ""
     @State private var confirmPassword: String = ""
     @State private var viewSelection: Int? = nil
-    @ObservedObject private var userViewModel = UserViewModel()
+//    @ObservedObject private var userViewModel = UserViewModel()
+    @EnvironmentObject private var userViewModel: UserViewModel
     @State private var signUpError: IdentifiableError? = nil
     
     var body: some View {
@@ -37,7 +38,8 @@ struct SignupView: View {
                 
                 switch signUpResult {
                     case Result.success:
-                        viewSelection = 1
+//                        viewSelection = 1
+                        print("sign up success")
                     case Result.error(let error):
                         print("login failed")
                         signUpError = error

@@ -8,7 +8,8 @@
 import SwiftUI
 
 struct RestaurantListView: View {
-    @ObservedObject private var restaurantViewModel = RestaurantViewModel()
+//    @ObservedObject private var restaurantViewModel = RestaurantViewModel()
+    @EnvironmentObject private var restaurantViewModel: RestaurantViewModel
     @State private var searchText: String = ""
     
     var body: some View {
@@ -18,15 +19,17 @@ struct RestaurantListView: View {
             Text("testing")
             
 
-            List(restaurantViewModel.restaurants) {restaurant in
-//                RestaurantItemView().environmentObject(restaurant)
-                
-                NavigationLink {
-                    RestaurantDetailView(restaurant: restaurant)
-                } label: {
-                    RestaurantItemView(restaurant: restaurant)
+            List {
+                ForEach(restaurantViewModel.restaurants) { restaurant in
+                    //                RestaurantItemView().environmentObject(restaurant)
+                    
+                    NavigationLink {
+                        RestaurantDetailView(restaurant: restaurant)
+                    } label: {
+                        RestaurantItemView(restaurant: restaurant)
+                    }
+                    
                 }
-                
             }
         }
         .onAppear(){
@@ -40,6 +43,7 @@ struct RestaurantListView: View {
 
 struct RestaurantListView_Previews: PreviewProvider {
     static var previews: some View {
-        RestaurantListView()
+//        RestaurantListView()
+        RestaurantListView().environmentObject(RestaurantViewModel())
     }
 }

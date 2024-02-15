@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct RestaurantItemView: View {
-    @ObservedObject private var userViewModel = UserViewModel()
+    @EnvironmentObject private var userViewModel: UserViewModel
     var restaurant: Restaurant
     
     var body: some View {
@@ -23,7 +23,7 @@ struct RestaurantItemView: View {
                         .scaledToFit()
                         .frame(width: 50, height: 50)
                 
-                @unknown default:
+                default:
                     Image(systemName: "broken_image")
                         .onAppear(){
                             print("\(#function) cannot show image")

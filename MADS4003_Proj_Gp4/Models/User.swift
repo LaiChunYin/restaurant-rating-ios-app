@@ -7,22 +7,47 @@
 
 import Foundation
 
-class User {
+class User: ObservableObject {
     let username: String
     let password: String
-    let favRestaurants: [Restaurant] = []
+    var rememberMe: Bool
+    var favRestaurants: [Restaurant] = []
     
-    init(username: String, password: String) {
+    // for signing up
+    init(username: String, password: String, rememberMe: Bool) {
         self.username = username
         self.password = password
+        self.rememberMe = rememberMe
     }
     
+    init(username: String, data: [String: Any]){
+        self.username = username
+        self.password = data["password"] as! String
+        self.rememberMe = data["remember_me"] as! Bool
+        self.favRestaurants = data["fav_restaurants"] as? [Restaurant] ?? []
+    }
+    
+//    init(userDict: [String: Any]) {
+//        self.username = userDict.keys.first!
+//        self.password = (userDict[self.username] as! [String: Any])["password"] as! String
+//        self.rememberMe = (userDict[self.username] as! [String: Any])["rememberMe"] as! Bool
+//        self.favRestaurants = userDict["fav_restaurants"] as! [Restaurant]
+//    }
     
     func addToFavRestaurant() {
         
     }
     
+    
     func removeFavRestaurant() {
         
+    }
+    
+    
+    // for preview testing
+    init() {
+        self.username = "tester"
+        self.password = "12345678"
+        self.rememberMe = false
     }
 }

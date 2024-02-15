@@ -11,14 +11,16 @@ struct LoginView: View {
     @State private var username: String = ""
     @State private var password: String = ""
     @State private var viewSelection: Int? = nil
-    @ObservedObject private var userViewModel = UserViewModel()
+//    @ObservedObject private var userViewModel = UserViewModel()
+    @EnvironmentObject private var userViewModel: UserViewModel
     @State private var loginError: IdentifiableError? = nil
+    @State private var rememberMe: Bool = false
     
 
     var body: some View {
         
         NavigationStack {
-            NavigationLink(destination: RestaurantListView(), tag: 1, selection: $viewSelection){}
+            NavigationLink(destination: MainView(), tag: 1, selection: $viewSelection){}
             NavigationLink(destination: SignupView(), tag: 2, selection: $viewSelection){}
             
             
@@ -28,10 +30,25 @@ struct LoginView: View {
             Text("Password:")
             TextField("Enter your password", text: $password)
             
+
+            HStack {
+                Button{
+                    rememberMe.toggle()
+                } label: {
+                    Image(systemName: rememberMe ? "checkmark.square" : "square")
+                        .foregroundColor(rememberMe ? .blue : .gray)
+                        .font(.system(size: 20))
+                }
+                .buttonStyle(PlainButtonStyle())
+                
+                Text("Remember Me")
+            }
+
+            
             Button {
                 print("login clicked")
                 
-                let loginResult: Result = userViewModel.login(username: username, password: password)
+                let loginResult: Result = userViewModel.login(username: username, password: password, rememberMe: rememberMe)
                 
                 switch loginResult {
                     case Result.success:
@@ -71,6 +88,6 @@ struct LoginView: View {
 
 struct LoginView_Previews: PreviewProvider {
     static var previews: some View {
-        LoginView()
+        LoginView().environmentObject(UserViewModel())
     }
 }

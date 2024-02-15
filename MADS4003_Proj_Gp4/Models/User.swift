@@ -12,6 +12,7 @@ class User: ObservableObject {
     let password: String
     var rememberMe: Bool
     var favRestaurants: [Restaurant] = []
+    var restaurantRatings: [String: Int] = [:]
     
     // for signing up
     init(username: String, password: String, rememberMe: Bool) {
@@ -25,6 +26,7 @@ class User: ObservableObject {
         self.password = data["password"] as! String
         self.rememberMe = data["remember_me"] as! Bool
         self.favRestaurants = data["fav_restaurants"] as? [Restaurant] ?? []
+        self.restaurantRatings = data["ratings"] as? [String: Int] ?? [:]
     }
     
 //    init(userDict: [String: Any]) {

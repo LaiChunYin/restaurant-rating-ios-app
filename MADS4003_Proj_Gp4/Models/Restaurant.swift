@@ -21,7 +21,9 @@ class Restaurant: Identifiable, ObservableObject {
 //    var openingHours: [String: String]? = nil
     var openingHours: [Int: String]? = nil
     var price: String? = nil
-//    let menu: Menu
+    var numOfRaters: Int = 0
+    var totalRatings: Int = 0
+    var comments: [String: String] = [:]
  
     init(id: String, name: String, location: String, iconUrl: URL?, category: String) {
         self.id = id

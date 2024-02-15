@@ -12,8 +12,25 @@ import SwiftyJSON
 class RestaurantViewModel: ObservableObject {
     private let API_KEY = "te5I4gQj31fvEDkqW41F6SDGf2Y8kbM1ezn26t-E_nKaasKhUxsAbLgJbQC0ylC21reOOznUWGjGWxQTazLhqA62aURluhO0XhDkQulRxkGfLoHY08aG-nspvErJZXYx"
     @Published var restaurants : [Restaurant] = []
+//    @Published var restaurant: Restaurant? = nil  // current restaurant shown on the detail page
+    private var comments_and_ratings: [String: [String: Any]] = [:]  // structure [restaurant ids: [number of raters: Int, total rating: Int, comment_and_commenter: [commenter: comment]]]
         
     init(){
+        if let data = UserDefaults.standard.data(forKey: "COMMENTS_AND_RATINGS") {
+            comments_and_ratings = try! JSONSerialization.jsonObject(with: data, options: []) as? [String: [String: Any]] ?? [:]
+            
+            for id in comments_and_ratings.keys {
+                if let data = comments_and_ratings[id],
+                   let numOfRaters = data["number_of_raters"] as? Int,
+                   let totalRating = data["total_rating"] as? Int,
+                   let comments = data["comments"] as? [String: String]
+                {
+                    comments_and_ratings[id] = ["number_of_raters": numOfRaters, "total_rating": totalRating, "comments": comments]
+                }
+            }
+            print("get user defaults comments and ratings \(comments_and_ratings)")
+        }
+        
         getRestaurants()
     }
     
@@ -70,6 +87,7 @@ class RestaurantViewModel: ObservableObject {
     
     
     func getRestaurantDetails(restaurant: Restaurant) {
+//    func getRestaurantDetails() {
         print("restauring to be found is \(restaurant.id)")
         let apiURL = "https://api.yelp.com/v3/businesses/\(restaurant.id)"
         let headers: HTTPHeaders = ["Authorization": "Bearer \(API_KEY)","Content-Type": "application/json"]
@@ -122,6 +140,13 @@ class RestaurantViewModel: ObservableObject {
                     restaurant.category = cateogory
                     restaurant.openingHours = openingHours
                     restaurant.price = price
+                
+                    if let commentAndRating = self.comments_and_ratings[restaurant.id] {
+                        print("getting comment and rating \(commentAndRating)")
+                        restaurant.numOfRaters = commentAndRating["number_of_raters"] as! Int
+                        restaurant.totalRatings = commentAndRating["total_rating"] as! Int
+                        restaurant.comments = commentAndRating["comments"] as! [String : String]
+                    }
                     
                     self.restaurants = self.restaurants
                 
@@ -134,4 +159,51 @@ class RestaurantViewModel: ObservableObject {
             
         }
     }
+    
+    func rate(restaurant: Restaurant, rating: Int, currentUser: User?) {
+        if currentUser!.restaurantRatings.keys.contains(restaurant.id) {
+            print("before rerating \(restaurant.totalRatings), \(rating), \(currentUser!.restaurantRatings[restaurant.id]!)")
+            restaurant.totalRatings -= currentUser!.restaurantRatings[restaurant.id]!
+            restaurant.totalRatings += rating
+//            currentUser!.restaurantRatings[restaurant.id] = rating
+            print("after rerating \(restaurant.totalRatings)")
+        }
+        else {
+            print("before new rating \(restaurant.numOfRaters), \(restaurant.totalRatings)")
+            restaurant.numOfRaters += 1
+            restaurant.totalRatings += rating
+//            currentUser!.restaurantRatings[restaurant.id] = rating
+            print("after new rating \(restaurant.numOfRaters), \(restaurant.totalRatings)")
+        }
+        
+        
+        print("before comments and ratings \(comments_and_ratings)")
+//        var commentAndRating = comments_and_ratings[restaurant.id]!
+//        commentAndRating["number_of_raters"] = restaurant.numOfRaters
+//        commentAndRating["total_rating"] = restaurant.totalRatings
+        comments_and_ratings[restaurant.id] = ["number_of_raters": restaurant.numOfRaters, "total_rating": restaurant.totalRatings, "comments": restaurant.comments]
+        print("after comments and ratings \(comments_and_ratings)")
+        
+
+        if let data = try? JSONSerialization.data(withJSONObject: comments_and_ratings, options: []) {
+            UserDefaults.standard.set(data, forKey: "COMMENTS_AND_RATINGS")
+            print("saved comments and ratings")
+        }
+        
+
+        
+//        print("before updating users rating \(users)")
+//        var userData = users[currentUser!.username]!
+//        var ratings: [String: Int] = userData["ratings"] as! [String: Int]
+//        ratings[restaurant.id] = rating
+//        userData["rating"] = ratings
+//        users[currentUser!.username]! = userData
+//        print("after updating users rating \(users)")
+//        
+//        if let data = try? JSONSerialization.data(withJSONObject: users, options: []) {
+//            UserDefaults.standard.set(data, forKey: "USERS")
+//            print("saved users")
+//        }
+    }
+    
 }

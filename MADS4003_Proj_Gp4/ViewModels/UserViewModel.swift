@@ -13,8 +13,10 @@ class UserViewModel: ObservableObject {
 
 //    private var users = UserDefaults.standard.dictionary(forKey: "USERS") as? [String: [String: Any]] ?? [:]
 //    private var all_fav = UserDefaults.standard.dictionary(forKey: "FAV") as? [String: [String: Any]] ?? [:]
-    private var users: [String: [String: Any]] = [:]
-    private var all_fav: [String: [String: Any]] = [:]
+    private var users: [String: [String: Any]] = [:]  // structure [username: [password: Int, remember_me: Bool, fav_restaurant_ids: [restaurant ids], restaurant_rating: [restaurantid: rating]]]
+    private var all_fav: [String: [String: Any]] = [:] // structure [restaurant id: [name: String, location: String, category: String]]
+    private var comments_and_ratings: [String: [String: Any]] = [:]  // structure [restaurant ids: [number of raters: Int, total rating: Int, comment_and_commenter: [commenter: comment]]]
+    private var user_ratings: [String: [String: Int]] = [:]  // structure [username: [restaurant id: rating]]
     @Published var currentUser: User? = nil
     @Published var favList: [Restaurant] = []
     
@@ -54,12 +56,40 @@ class UserViewModel: ObservableObject {
                 if let data = users[username],
                    let password = data["password"] as? String,
                    let rememberMe = data["remember_me"] as? Bool,
-                   let fav_list = data["fav_restaurant_ids"] as? [String]
+                   let fav_list = data["fav_restaurant_ids"] as? [String],
+                   let restaurantRating = data["ratings"] as? [String: Int]
                 {
-                    users[username] = ["password": password, "remember_me": rememberMe, "fav_restaurant_ids": fav_list]
+                    users[username] = ["password": password, "remember_me": rememberMe, "fav_restaurant_ids": fav_list, "ratings": restaurantRating]
                 }
             }
             print("get user defaults users \(users)")
+        }
+        
+        if let data = UserDefaults.standard.data(forKey: "COMMENTS_AND_RATINGS") {
+            comments_and_ratings = try! JSONSerialization.jsonObject(with: data, options: []) as? [String: [String: Any]] ?? [:]
+            
+            for id in comments_and_ratings.keys {
+                if let data = comments_and_ratings[id],
+                   let numOfRaters = data["number_of_raters"] as? Int,
+                   let totalRating = data["total_rating"] as? Int,
+                   let comments = data["comments"] as? [String: String]
+                {
+                    comments_and_ratings[id] = ["number_of_raters": numOfRaters, "total_rating": totalRating, "comments": comments]
+                }
+            }
+            print("get user defaults comments and ratings \(comments_and_ratings)")
+        }
+        
+        if let data = UserDefaults.standard.data(forKey: "USER_RATINGS") {
+            user_ratings = try! JSONSerialization.jsonObject(with: data, options: []) as? [String: [String: Int]] ?? [:]
+            
+//            for username in user_ratings.keys {
+//                if let data = user_ratings[username]
+//                {
+//                    user_ratings[username] = ["password": password, "remember_me": rememberMe, "fav_restaurant_ids": fav_list, "restaurant_ratings": restaurantRatings]
+//                }
+//            }
+            print("get user defaults comments and ratings \(comments_and_ratings)")
         }
 
     }
@@ -83,7 +113,7 @@ class UserViewModel: ObservableObject {
         }
         
         print("\(#function), \(username), \(password)")
-        let newUserData: [String: Any] = ["password": password, "fav_restaurant_ids": [], "remember_me": false]
+        let newUserData: [String: Any] = ["password": password, "fav_restaurant_ids": [], "remember_me": false, "ratings": [:]]
         users[username] = newUserData
         
         // login directly after signing up
@@ -142,10 +172,6 @@ class UserViewModel: ObservableObject {
         }
         
         return .success
-    }
-
-    func save() {
-        
     }
     
     func logout() -> Result {
@@ -235,9 +261,6 @@ class UserViewModel: ObservableObject {
 //        UserDefaults.standard.set(users, forKey: "USERS")
     }
     
-    func share() {
-        
-    }
     
     func getFavRestaurants(ids: [String]) -> [Restaurant] {
         return ids.compactMap {
@@ -247,6 +270,55 @@ class UserViewModel: ObservableObject {
             return Restaurant(id: $0, data: all_fav[$0]!)
         }
     }
+    
+    func rate(restaurant: Restaurant, rating: Int, currentUser: User?) {
+        if currentUser!.restaurantRatings.keys.contains(restaurant.id) {
+            print("rerating")
+//            restaurant.totalRatings -= currentUser!.restaurantRatings[restaurant.id]!
+//            restaurant.totalRatings += rating
+            currentUser!.restaurantRatings[restaurant.id] = rating
+        }
+        else {
+            print("new rating")
+//            restaurant.numOfRaters += 1
+//            restaurant.totalRatings += rating
+            currentUser!.restaurantRatings[restaurant.id] = rating
+        }
+        
+        
+//        print("before comments and ratings \(comments_and_ratings)")
+////        var commentAndRating = comments_and_ratings[restaurant.id]!
+////        commentAndRating["number_of_raters"] = restaurant.numOfRaters
+////        commentAndRating["total_rating"] = restaurant.totalRatings
+//        comments_and_ratings[restaurant.id] = ["number_of_raters": restaurant.numOfRaters, "total_rating": restaurant.totalRatings, "comments": restaurant.comments]
+//        print("after comments and ratings \(comments_and_ratings)")
+//        
+//
+//        if let data = try? JSONSerialization.data(withJSONObject: comments_and_ratings, options: []) {
+//            UserDefaults.standard.set(data, forKey: "COMMENTS_AND_RATINGS")
+//            print("saved comments and ratings")
+//        }
+        
+
+        
+        print("before updating users rating \(users)")
+        var userData = users[currentUser!.username]!
+        var ratings: [String: Int] = userData["ratings"] as! [String: Int]
+        ratings[restaurant.id] = rating
+        userData["ratings"] = ratings
+        users[currentUser!.username]! = userData
+        print("after updating users rating \(users)")
+        
+        if let data = try? JSONSerialization.data(withJSONObject: users, options: []) {
+            UserDefaults.standard.set(data, forKey: "USERS")
+            print("saved users")
+        }
+    }
+    
+    func comment(restaurant: Restaurant, comment: String) {
+        
+    }
+    
     
 //    // for preview testing
 //    init() {

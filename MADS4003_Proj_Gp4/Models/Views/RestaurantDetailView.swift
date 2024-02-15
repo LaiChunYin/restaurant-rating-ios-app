@@ -13,9 +13,10 @@ struct RestaurantDetailView: View {
     @EnvironmentObject var userViewModel: UserViewModel
     @EnvironmentObject var restaurantViewModel: RestaurantViewModel
 //    @EnvironmentObject private var restaurant: Restaurant
-    var restaurant: Restaurant
+    @ObservedObject var restaurant: Restaurant
     @State var rating = 0
     @State private var currentIndex: Int = 0
+    @State private var averageRating: String = "No Data"
     private let images: [Image] = [Image(.restaurant1), Image(.restaurant2), Image(.restaurant3)]
 
     struct OpeningHoursView: View {
@@ -154,7 +155,6 @@ struct RestaurantDetailView: View {
                         .font(.headline)
                         .foregroundColor(.blue)
                     
-                    /*    TODO: Opening hours */
                     
 //                    OpeningHoursView()
 //                        .padding(.top, 5)
@@ -166,12 +166,46 @@ struct RestaurantDetailView: View {
                 }.padding()
                     
                 
-                /*  MARK: 5 Star rating bar and comment session */
-                
                 StarRatingView(rating: $rating, maxRating: 5)
-                                .padding()
+                    .padding()
+                    .onChange(of: rating) {
+                        print("changing star rating")
+                        restaurantViewModel.rate(restaurant: restaurant, rating: rating, currentUser: userViewModel.currentUser)
+                        userViewModel.rate(restaurant: restaurant, rating: rating, currentUser: userViewModel.currentUser)
+          
+                        
+                        averageRating = restaurant.numOfRaters != 0 ? String(format: "%.1f", Double(restaurant.totalRatings) / Double(restaurant.numOfRaters)) : "No data"
+                        
+                    }
+//                    .onAppear(){
+//                        print("initializing star rating")
+//                        
+//                        if restaurant.numOfRaters != 0 && restaurant.totalRatings != nil {
+//                            rating = restaurant.totalRatings / restaurant.numOfRaters
+//                        }
+//                    }
+                
+                Text("Average rating by users: \(averageRating)")
+                    .fontWeight(.light)
+                    .foregroundColor(.gray)
                 
                 CommentSectionView()
+                
+                if(!restaurant.comments.isEmpty) {
+                    VStack {
+                        Text("Users' Comments:")
+                            .font(.headline)
+                            .foregroundColor(.blue)
+                        
+                        ForEach(restaurant.comments.keys.map {$0}, id: \.self) { commenter in
+                            
+                            HStack {
+                                Text("\(commenter)")
+                                Text("\(restaurant.comments[commenter]!)")
+                            }
+                        }
+                    }
+                }
                 
                 Spacer()
                 
@@ -228,8 +262,9 @@ struct RestaurantDetailView: View {
             print("getting restaurant details: \(restaurant)")
             
             restaurantViewModel.getRestaurantDetails(restaurant: restaurant)
+            averageRating = restaurant.numOfRaters != 0 ? String(restaurant.totalRatings / restaurant.numOfRaters) : "No data"
             
-            print("after update \(restaurant.id), \(restaurant.photoUrls), \(restaurant.openingHours)")
+            print("after update \(restaurant.id), \(restaurant.photoUrls), \(restaurant.openingHours), \(restaurant.totalRatings), \(restaurant.numOfRaters)")
         }
     }
     

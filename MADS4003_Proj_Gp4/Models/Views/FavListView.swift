@@ -36,7 +36,7 @@ struct FavListView: View {
             }
             
         }
-        .searchable(text: $searchText, prompt: "Search Fav Restaurant")
+//        .searchable(text: $searchText, prompt: "Search Fav Restaurant")
         .onAppear(){
             print("fav list testing \(userViewModel.currentUser?.username) \(userViewModel.currentUser?.favRestaurants)")
         }

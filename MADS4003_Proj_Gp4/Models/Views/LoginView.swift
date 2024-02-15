@@ -55,6 +55,14 @@ struct LoginView: View {
                             .font(.largeTitle)
                             .fontWeight(.semibold)
                         
+                        
+                        SecureField("Enter your password", text: $password)
+                            .textFieldStyle(RoundedBorderTextFieldStyle())
+                            .foregroundColor(.orange)
+                            .overlay(RoundedRectangle(cornerRadius: 8).stroke(Color.orange, lineWidth: 3))
+                            .padding()
+                            .padding(.bottom, 20)
+                        
                         HStack {
                             Button{
                                 rememberMe.toggle()
@@ -67,13 +75,6 @@ struct LoginView: View {
                             
                             Text("Remember Me")
                         }
-                        
-                        SecureField("Enter your password", text: $password)
-                            .textFieldStyle(RoundedBorderTextFieldStyle())
-                            .foregroundColor(.orange)
-                            .overlay(RoundedRectangle(cornerRadius: 8).stroke(Color.orange, lineWidth: 3))
-                            .padding()
-                            .padding(.bottom, 20)
                         
                         HStack {
                             Button {

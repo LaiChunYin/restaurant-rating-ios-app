@@ -14,7 +14,7 @@ struct ContentView: View {
     
     var body: some View {
         VStack {
-            if $userViewModel.currentUser != nil {
+            if userViewModel.currentUser != nil {
                 MainView().environmentObject(userViewModel).environmentObject(restaurantViewModel)
             }
             else {

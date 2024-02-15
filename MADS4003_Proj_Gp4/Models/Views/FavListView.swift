@@ -12,6 +12,7 @@ struct FavListView: View {
 //    @ObservedObject var userViewModel = UserViewModel()
     @EnvironmentObject var userViewModel: UserViewModel
 //    @ObservedObject var currentUser: User
+  
     
     var body: some View {
         
@@ -36,7 +37,7 @@ struct FavListView: View {
             }
             
         }
-        .searchable(text: $searchText, prompt: "Search Fav Restaurant")
+        
         .onAppear(){
             print("fav list testing \(userViewModel.currentUser?.username) \(userViewModel.currentUser?.favRestaurants)")
         }

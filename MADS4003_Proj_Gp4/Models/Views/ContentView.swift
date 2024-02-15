@@ -21,7 +21,6 @@ struct ContentView: View {
                 LoginView().environmentObject(userViewModel).environmentObject(restaurantViewModel)
             }
         }
-        .padding()
 
     }
 }

@@ -9,12 +9,11 @@ import SwiftUI
 
 struct MainView: View {
     @EnvironmentObject var userViewModel: UserViewModel
-//    @State private var showAlert: Bool = false
-//    @State private var logoutResult: Result? = nil
     
     var body: some View {
         
-        NavigationStack {
+        NavigationView {
+            
             TabView {
                 RestaurantListView().tabItem {
                     Image(systemName: "magnifyingglass.circle.fill")
@@ -34,7 +33,6 @@ struct MainView: View {
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Menu {
                         Button {
-//                            showAlert = true
                             userViewModel.logout()
                         } label: {
                             Text("Logout")
@@ -44,19 +42,10 @@ struct MainView: View {
                     }
                 }
             }
-            .navigationTitle("Welcome!")
-//            .alert(isPresented: $showAlert) {
-////                let msg: String
-////                switch logoutResult {
-////                    case .success:
-////                        msg = "Logout Sucessful"
-////                    default:
-////                        msg = "Logout Failed"
-////                 }
-////                return Alert(title: Text("Logout"), message: Text(msg))
-//                Alert(title: Text("Logout"), message: Text("testing"))
-//                
-//            }
+            .navigationBarTitleDisplayMode(.inline)
+            .navigationBarTitle(Text("Welcome!")
+                .font(.largeTitle)
+                .foregroundColor(.blue))
 
         }
         

@@ -10,7 +10,7 @@ import Alamofire
 import SwiftyJSON
 
 class RestaurantViewModel: ObservableObject {
-    private let API_KEY = "te5I4gQj31fvEDkqW41F6SDGf2Y8kbM1ezn26t-E_nKaasKhUxsAbLgJbQC0ylC21reOOznUWGjGWxQTazLhqA62aURluhO0XhDkQulRxkGfLoHY08aG-nspvErJZXYx"
+    private let API_KEY = "6LQhljyV1qFJCvdZSMzqgrH4NNDuxROerJxD1f9bxfHPeYpocbtcqTArMJx0tNs6berR8I5_Y0Pb9fOfbeBqNsswWxhMnTBgFEMBmEgTM8CeJyAkjSfGFmwNNyHNZXYx"
     @Published var restaurants : [Restaurant] = []
         
     init(){

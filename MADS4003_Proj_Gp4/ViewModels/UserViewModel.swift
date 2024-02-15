@@ -204,7 +204,7 @@ class UserViewModel: ObservableObject {
 //        UserDefaults.standard.set(users, forKey: "USERS")
 //        UserDefaults.standard.set(all_fav, forKey: "FAV")
     }
-        
+
     
     func removeFromFav(restaurants: [Restaurant]) {
         print("users before removing \(users)")

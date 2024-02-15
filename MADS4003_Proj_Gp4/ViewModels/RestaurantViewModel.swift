@@ -10,9 +10,13 @@ import Alamofire
 import SwiftyJSON
 
 class RestaurantViewModel: ObservableObject {
-    private let API_KEY = ""
+    private let API_KEY = "te5I4gQj31fvEDkqW41F6SDGf2Y8kbM1ezn26t-E_nKaasKhUxsAbLgJbQC0ylC21reOOznUWGjGWxQTazLhqA62aURluhO0XhDkQulRxkGfLoHY08aG-nspvErJZXYx"
     @Published var restaurants : [Restaurant] = []
         
+    init(){
+        getRestaurants()
+    }
+    
     func getRestaurants(){
         let apiURL = "https://api.yelp.com/v3/businesses/search?term=restaurants&location=Toronto"
         let headers: HTTPHeaders = ["Authorization": "Bearer \(API_KEY)",
@@ -51,19 +55,24 @@ class RestaurantViewModel: ObservableObject {
             case .failure(let error):
                 print(#function, "Unsuccessful response from server : \(error)")
             }
-            
         }
     }
     
-    func searchRestaurants(searchText: String) {
-        
+    func searchRestaurants(for searchTerm: String) -> [Restaurant]{
+        if searchTerm.isEmpty{
+            return restaurants
+        }else{
+            return restaurants.filter{ restaurant in
+                restaurant.name.localizedCaseInsensitiveContains(searchTerm)
+            }
+        }
     }
+    
     
     func getRestaurantDetails(restaurant: Restaurant) {
         print("restauring to be found is \(restaurant.id)")
         let apiURL = "https://api.yelp.com/v3/businesses/\(restaurant.id)"
-        let headers: HTTPHeaders = ["Authorization": "Bearer \(API_KEY)",
-                                   "Content-Type": "application/json"]
+        let headers: HTTPHeaders = ["Authorization": "Bearer \(API_KEY)","Content-Type": "application/json"]
         
         AF.request(apiURL, headers: headers).responseJSON{ response in
             print("response is \(response)")

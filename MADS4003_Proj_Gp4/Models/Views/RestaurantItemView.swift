@@ -31,7 +31,7 @@ struct RestaurantItemView: View {
                 }
             }
             
-            VStack {
+            VStack(alignment: .leading){
                 Text("\(restaurant.name)")
                 Text("\(restaurant.category)").foregroundColor(.red)
             }

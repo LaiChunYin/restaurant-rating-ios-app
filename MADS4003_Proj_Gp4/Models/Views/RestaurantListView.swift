@@ -12,31 +12,27 @@ struct RestaurantListView: View {
     @EnvironmentObject private var restaurantViewModel: RestaurantViewModel
     @State private var searchText: String = ""
     
+    var filteredRestaurant: [Restaurant] {
+        print("searching for: \(searchText)")
+        return restaurantViewModel.searchRestaurants(for: searchText)
+    }
+    
     var body: some View {
         NavigationStack {
             
-
-            Text("testing")
-            
-
-            List {
-                ForEach(restaurantViewModel.restaurants) { restaurant in
-                    //                RestaurantItemView().environmentObject(restaurant)
-                    
-                    NavigationLink {
-                        RestaurantDetailView(restaurant: restaurant)
-                    } label: {
-                        RestaurantItemView(restaurant: restaurant)
-                    }
-                    
+            List(filteredRestaurant) { restaurant in
+                NavigationLink {
+                    RestaurantDetailView(restaurant: restaurant)
+                } label: {
+                    RestaurantItemView(restaurant: restaurant)
                 }
             }
+            .searchable(text: $searchText)
+            .autocorrectionDisabled()
         }
         .onAppear(){
             print("getting from api")
-            restaurantViewModel.getRestaurants()
         }
-        .searchable(text: $searchText, prompt: "Search Restaurant")
     }
 }
 

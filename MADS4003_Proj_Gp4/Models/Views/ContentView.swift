@@ -14,7 +14,7 @@ struct ContentView: View {
     
     var body: some View {
         VStack {
-            if userViewModel.currentUser != nil {
+            if $userViewModel.currentUser != nil {
                 MainView().environmentObject(userViewModel).environmentObject(restaurantViewModel)
             }
             else {
@@ -22,15 +22,7 @@ struct ContentView: View {
             }
         }
         .padding()
-//        .onAppear() {
-//            print("\(#function) current user is \(currentUser?.keys)")
-//        }
-//        .onAppear(){
-//            if let data = UserDefaults.standard.data(forKey: "CURRENT_USER") {
-//                currentUser = try! JSONSerialization.jsonObject(with: data, options: []) as? [String: [String: Any]] ?? [:]
-//                print("content view current user \(currentUser?.keys)")
-//            }
-//        }
+
     }
 }
 

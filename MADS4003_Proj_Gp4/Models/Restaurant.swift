@@ -27,7 +27,6 @@ class Restaurant: Identifiable, ObservableObject {
         self.id = id
         self.name = name
         self.location = location
-//        self.restaurantUrl = restaurantUrl
         self.iconUrl = iconUrl
         self.category = category
     }

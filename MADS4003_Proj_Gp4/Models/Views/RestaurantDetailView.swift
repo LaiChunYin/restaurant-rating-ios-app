@@ -54,7 +54,7 @@ struct RestaurantDetailView: View {
                                         .frame(width: UIScreen.main.bounds.width * 0.3, height: 100)
                                     
                                 default:
-                                    Image(systemName: "broken_image")
+                                    Image(systemName: "xmark.square.fill")
                                         .onAppear(){
                                             print("\(#function) cannot show image")
                                         }
@@ -104,15 +104,19 @@ struct RestaurantDetailView: View {
                         
                         if(!restaurant.comments.isEmpty) {
                             VStack {
-                                Text("Users' Comments:")
-                                    .font(.headline)
-                                    .foregroundColor(.blue)
                                 
+                                HStack{
+                                    Text("Users' Comments:")
+                                        .font(.headline)
+                                        .foregroundColor(.blue)
+                                    Spacer()
+                                }
                                 ForEach(restaurant.comments.keys.map {$0}, id: \.self) { commenter in
                                     
                                     HStack(alignment: .top) {
                                         Text("\(commenter)")
                                         Text("\(restaurant.comments[commenter]!)")
+                                        Spacer()
                                     }
                                 }
                             }

@@ -24,7 +24,7 @@ struct RestaurantItemView: View {
                         .frame(width: 50, height: 50)
                 
                 default:
-                    Image(systemName: "broken_image")
+                    Image(systemName: "xmark.square.fill")
                         .onAppear(){
                             print("\(#function) cannot show image")
                         }

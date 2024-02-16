@@ -114,7 +114,7 @@ struct RestaurantDetailView: View {
                                 ForEach(restaurant.comments.keys.map {$0}, id: \.self) { commenter in
                                     
                                     HStack(alignment: .top) {
-                                        Text("\(commenter)")
+                                        Text("\(commenter): ").fontWeight(.semibold)
                                         Text("\(restaurant.comments[commenter]!)")
                                         Spacer()
                                     }
@@ -160,7 +160,7 @@ struct RestaurantDetailView: View {
                         
                         Spacer()
                         
-                        if !userViewModel.currentUser!.favRestaurants.map({$0.id}).contains(restaurant.id) {
+                        if ((userViewModel.currentUser?.favRestaurants.map({$0.id}).contains(restaurant.id)) == nil) {
                             Button {
                                 userViewModel.addToFav(restaurant: restaurant)
                             } label: {

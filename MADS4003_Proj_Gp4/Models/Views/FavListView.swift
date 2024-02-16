@@ -10,13 +10,18 @@ import SwiftUI
 struct FavListView: View {
     @State private var searchText: String = ""
     @EnvironmentObject var userViewModel: UserViewModel
+    @EnvironmentObject private var restaurantViewModel: RestaurantViewModel
+    
+    private var filteredRestaurant: [Restaurant]? {
+        return restaurantViewModel.searchRestaurants(for: searchText, in: userViewModel.currentUser?.favRestaurants ?? [])
+    }
     
     var body: some View {
         
         NavigationStack {
             List {
                 
-                ForEach(userViewModel.currentUser?.favRestaurants ?? []) { restaurant in
+                ForEach(filteredRestaurant ?? []) { restaurant in
                     NavigationLink {
                         RestaurantDetailView(restaurant: restaurant)
                     } label: {
@@ -33,13 +38,13 @@ struct FavListView: View {
             }
             
         }
-//        .searchable(text: $searchText, prompt: "Search Fav Restaurant")
+        .searchable(text: $searchText, prompt: "Search Fav Restaurants")
+        .autocorrectionDisabled()
     }
 }
 
 struct FavListView_Previews: PreviewProvider {
     static var previews: some View {
-//        FavListView(userViewModel: UserViewModel())
-        FavListView().environmentObject(UserViewModel())
+        FavListView().environmentObject(UserViewModel()).environmentObject(RestaurantViewModel())
     }
 }

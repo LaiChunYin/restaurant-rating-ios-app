@@ -10,7 +10,7 @@ import Alamofire
 import SwiftyJSON
 
 class RestaurantViewModel: ObservableObject {
-    private let API_KEY = "te5I4gQj31fvEDkqW41F6SDGf2Y8kbM1ezn26t-E_nKaasKhUxsAbLgJbQC0ylC21reOOznUWGjGWxQTazLhqA62aURluhO0XhDkQulRxkGfLoHY08aG-nspvErJZXYx"
+    private let API_KEY = ""
     @Published var restaurants : [Restaurant] = []
     private var comments_and_ratings: [String: [String: Any]] = [:]  // structure [restaurant ids: [number of raters: Int, total rating: Int, comment_and_commenter: [commenter: comment]]]
         
@@ -70,7 +70,7 @@ class RestaurantViewModel: ObservableObject {
         }
     }
     
-    func searchRestaurants(for searchTerm: String) -> [Restaurant]{
+    func searchRestaurants(for searchTerm: String, in restaurants: [Restaurant]) -> [Restaurant] {        
         if searchTerm.isEmpty{
             return restaurants
         }else{

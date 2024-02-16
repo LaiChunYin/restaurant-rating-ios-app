@@ -7,25 +7,17 @@
 
 import Foundation
 
-struct IdentifiableError: Identifiable {
-    let id = UUID()
-    let error: any AppError
-}
-
-enum Result {
-    case success
-    case error(type: IdentifiableError)
-}
-
-protocol AppError: Error {}
-
-enum LoginError: AppError {
+enum LoginError: Error, Identifiable {
+    var id: Self {self}
+    
     case emptyUsernameOrPwd
     case invalidUser
     case wrongPwd
 }
 
-enum SignUpError: AppError {
+enum SignUpError: Error,Identifiable {
+    var id: Self {self}
+    
     case alreadyExist
     case weakPassword
     case confirmPwdNotMatch

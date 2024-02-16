@@ -70,22 +70,22 @@ class UserViewModel: ObservableObject {
 
     }
     
-    func signUp(username: String, password: String, confirmPassword: String) -> Result {
+    func signUp(username: String, password: String, confirmPassword: String) -> Result<Void, SignUpError> {
         guard !username.isEmpty && !password.isEmpty && !confirmPassword.isEmpty else {
             print("empty value")
-            return .error(type: IdentifiableError(error: SignUpError.emptyInputs))
+            return .failure(SignUpError.emptyInputs)
         }
         guard password == confirmPassword else {
             print("password not match")
-            return .error(type: IdentifiableError(error: SignUpError.confirmPwdNotMatch))
+            return .failure(SignUpError.confirmPwdNotMatch)
         }
 
         guard !users.keys.contains(username) else {
             print("user already exist")
-            return .error(type: IdentifiableError(error: SignUpError.alreadyExist))
+            return .failure(SignUpError.alreadyExist)
         }
         guard password.count >= 8 else {
-            return .error(type: IdentifiableError(error: SignUpError.weakPassword))
+            return .failure(SignUpError.weakPassword)
         }
         
         print("\(#function), \(username), \(password)")
@@ -99,21 +99,21 @@ class UserViewModel: ObservableObject {
             UserDefaults.standard.set(data, forKey: "USERS")
             print("saved users")
         }
-        return .success
+        return .success(())
     }
     
-    func login(username: String, password: String, rememberMe: Bool) -> Result {
+    func login(username: String, password: String, rememberMe: Bool) -> Result<Void, LoginError> {
         guard !username.isEmpty && !password.isEmpty else {
             print("empty username or password")
-            return .error(type: IdentifiableError(error: LoginError.emptyUsernameOrPwd))
+            return .failure(LoginError.emptyUsernameOrPwd)
         }
         guard users.keys.contains(username) else {
             print("invalid user")
-            return .error(type: IdentifiableError(error: LoginError.invalidUser))
+            return .failure(LoginError.invalidUser)
         }
         guard password == users[username]!["password"] as? String else {
             print("wrong password")
-            return .error(type: IdentifiableError(error: LoginError.wrongPwd))
+            return .failure(LoginError.wrongPwd)
         }
         
         print("\(#function), \(username), \(password)")
@@ -140,13 +140,13 @@ class UserViewModel: ObservableObject {
             }
         }
         
-        return .success
+        return .success(())
     }
     
-    func logout() -> Result {
+    func logout() -> Result<Void, Error> {
         currentUser = nil
         UserDefaults.standard.set(nil, forKey: "CURRENT_USER")
-        return .success
+        return .success(())
     }
     
     func addToFav(restaurant: Restaurant) {

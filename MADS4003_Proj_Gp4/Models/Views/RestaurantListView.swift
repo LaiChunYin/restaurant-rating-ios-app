@@ -12,21 +12,21 @@ struct RestaurantListView: View {
     @EnvironmentObject private var restaurantViewModel: RestaurantViewModel
     @State private var searchText: String = ""
     
-    var filteredRestaurant: [Restaurant] {
-        return restaurantViewModel.searchRestaurants(for: searchText)
+    private var filteredRestaurant: [Restaurant]? {
+        return restaurantViewModel.searchRestaurants(for: searchText, in: restaurantViewModel.restaurants)
     }
     
     var body: some View {
         NavigationStack {
             
-            List(filteredRestaurant) { restaurant in
+            List(filteredRestaurant ?? []) { restaurant in
                 NavigationLink {
                     RestaurantDetailView(restaurant: restaurant)
                 } label: {
                     RestaurantItemView(restaurant: restaurant)
                 }
             }
-            .searchable(text: $searchText)
+            .searchable(text: $searchText, prompt: "Search Restaurants")
             .autocorrectionDisabled()
         }
     }

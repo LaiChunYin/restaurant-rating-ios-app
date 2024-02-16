@@ -12,7 +12,7 @@ struct LoginView: View {
     @State private var password: String = ""
     @State private var viewSelection: Int? = nil
     @EnvironmentObject private var userViewModel: UserViewModel
-    @State private var loginError: IdentifiableError? = nil
+    @State private var loginError: LoginError? = nil
     @State private var rememberMe: Bool = false
     
 
@@ -77,12 +77,12 @@ struct LoginView: View {
                         
                         HStack {
                             Button {
-                                let loginResult: Result = userViewModel.login(username: username, password: password, rememberMe: rememberMe)
+                                let loginResult = userViewModel.login(username: username, password: password, rememberMe: rememberMe)
                                 
                                 switch loginResult {
-                                case Result.success:
+                                case .success:
                                     viewSelection = 1
-                                case Result.error(let error):
+                                case .failure(let error):
                                     print("login failed")
                                     loginError = error
                                 }
@@ -95,9 +95,8 @@ struct LoginView: View {
                             .tint(.green)
                             .buttonStyle(.borderedProminent)
                             .alert(item: $loginError){ error in
-                                let errorType: LoginError = error.error as! LoginError
                                 let errMsg: String
-                                switch errorType {
+                                switch error {
                                 case .emptyUsernameOrPwd:
                                     errMsg = "Please enter both username and password."
                                 case .invalidUser, .wrongPwd:

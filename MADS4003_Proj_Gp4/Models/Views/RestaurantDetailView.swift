@@ -16,29 +16,7 @@ struct RestaurantDetailView: View {
     @State private var averageRating: String = "No Data"
     @State private var comment: String = ""
     private let images: [Image] = [Image(.restaurant1), Image(.restaurant2), Image(.restaurant3)]
-    
-    struct OpeningHoursView: View {
-        let openingHours: [String: String] = [
-            "Monday": "10:00 AM - 4:00 PM",
-            "Tuesday": "Closed",
-            "Wednesday": "Closed",
-            "Thursday": "Closed",
-            "Friday": "10:00 AM - 4:00 PM",
-            "Saturday": "10:00 AM - 4:00 PM",
-            "Sunday": "10:00 AM - 4:00 PM"
-        ]
         
-        var body: some View {
-            VStack(alignment: .leading, spacing: 5) {
-                ForEach(openingHours.sorted(by: { $0.key < $1.key }), id: \.key) { day, hours in
-                    Text("\(day.capitalized): \(hours)")
-                        .font(.body)
-                }
-            }
-        }
-    }
-    
-    
     var body: some View {
         ScrollView {
             VStack {
@@ -160,7 +138,7 @@ struct RestaurantDetailView: View {
                         
                         Spacer()
                         
-                        if ((userViewModel.currentUser?.favRestaurants.map({$0.id}).contains(restaurant.id)) == nil) {
+                        if !(userViewModel.currentUser?.favRestaurants.map({$0.id}).contains(restaurant.id) ?? false) {
                             Button {
                                 userViewModel.addToFav(restaurant: restaurant)
                             } label: {
@@ -199,13 +177,6 @@ struct RestaurantDetailView: View {
         
     }
     
-    
-    
-    struct RestaurantDetailView_Previews: PreviewProvider {
-        static var previews: some View {
-            RestaurantDetailView(restaurant: Restaurant())
-        }
-    }
     
     struct StarRatingView: View {
         @Binding var rating: Int
@@ -252,5 +223,12 @@ struct RestaurantDetailView: View {
             }
             
         }
+    }
+}
+
+
+struct RestaurantDetailView_Previews: PreviewProvider {
+    static var previews: some View {
+        RestaurantDetailView(restaurant: Restaurant()).environmentObject(RestaurantViewModel()).environmentObject(UserViewModel())
     }
 }

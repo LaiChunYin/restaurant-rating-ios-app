@@ -4,7 +4,7 @@ struct SignupView: View {
     @State private var username: String = ""
     @State private var password: String = ""
     @State private var confirmPassword: String = ""
-    @State private var signUpError: IdentifiableError? = nil
+    @State private var signUpError: SignUpError? = nil
     @EnvironmentObject private var userViewModel: UserViewModel
     
     var body: some View {
@@ -56,12 +56,12 @@ struct SignupView: View {
                             .padding()
                         
                         Button(action: {
-                            let signUpResult: Result = userViewModel.signUp(username: username, password: password, confirmPassword: confirmPassword)
+                            let signUpResult = userViewModel.signUp(username: username, password: password, confirmPassword: confirmPassword)
                             
                             switch signUpResult {
-                            case Result.success:
+                            case .success:
                                 print("sign up success")
-                            case Result.error(let error):
+                            case .failure(let error):
                                 print("sign up failed")
                                 signUpError = error
                             }
@@ -75,9 +75,8 @@ struct SignupView: View {
                                 .cornerRadius(10)
                         }
                         .alert(item: $signUpError) { error in
-                            let errorType: SignUpError = error.error as! SignUpError
                             let errMsg: String
-                            switch errorType {
+                            switch error {
                             case .alreadyExist:
                                 errMsg = "The username is already used."
                             case .weakPassword:

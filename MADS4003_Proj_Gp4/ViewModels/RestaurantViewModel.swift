@@ -12,24 +12,9 @@ import SwiftyJSON
 class RestaurantViewModel: ObservableObject {
     private let API_KEY = ""
     @Published var restaurants : [Restaurant] = []
-    private var comments_and_ratings: [String: [String: Any]] = [:]  // structure [restaurant ids: [number of raters: Int, total rating: Int, comment_and_commenter: [commenter: comment]]]
+    private let restaurantRepository = RestaurantRepository()
         
     init(){
-        if let data = UserDefaults.standard.data(forKey: "COMMENTS_AND_RATINGS") {
-            comments_and_ratings = try! JSONSerialization.jsonObject(with: data, options: []) as? [String: [String: Any]] ?? [:]
-            
-            for id in comments_and_ratings.keys {
-                if let data = comments_and_ratings[id],
-                   let numOfRaters = data["number_of_raters"] as? Int,
-                   let totalRating = data["total_rating"] as? Int,
-                   let comments = data["comments"] as? [String: String]
-                {
-                    comments_and_ratings[id] = ["number_of_raters": numOfRaters, "total_rating": totalRating, "comments": comments]
-                }
-            }
-            print("get user defaults comments and ratings \(comments_and_ratings)")
-        }
-        
         getRestaurants()
     }
     
@@ -111,6 +96,7 @@ class RestaurantViewModel: ObservableObject {
                     }
                 
                 
+                    self.objectWillChange.send()
                     restaurant.name = name
                     restaurant.location = location
                     restaurant.restaurantUrl = restaurantUrl
@@ -119,15 +105,7 @@ class RestaurantViewModel: ObservableObject {
                     restaurant.category = cateogory
                     restaurant.openingHours = openingHours
                     restaurant.price = price
-                
-                    if let commentAndRating = self.comments_and_ratings[restaurant.id] {
-                        print("getting comment and rating \(commentAndRating)")
-                        restaurant.numOfRaters = commentAndRating["number_of_raters"] as! Int
-                        restaurant.totalRatings = commentAndRating["total_rating"] as! Int
-                        restaurant.comments = commentAndRating["comments"] as! [String : String]
-                    }
-                    
-                    self.restaurants = self.restaurants
+                    self.restaurantRepository.populateCommentsAndRatings(restaurant: restaurant)
                 
                 
                 print(#function, "restaurants - \(restaurant.openingHours), \(restaurant.photoUrls), \(restaurant.price)")
@@ -149,13 +127,7 @@ class RestaurantViewModel: ObservableObject {
             restaurant.totalRatings += rating
         }
         
-        
-        comments_and_ratings[restaurant.id] = ["number_of_raters": restaurant.numOfRaters, "total_rating": restaurant.totalRatings, "comments": restaurant.comments]
-
-        if let data = try? JSONSerialization.data(withJSONObject: comments_and_ratings, options: []) {
-            UserDefaults.standard.set(data, forKey: "COMMENTS_AND_RATINGS")
-            print("saved comments and ratings")
-        }
+        restaurantRepository.updateRating(restaurant: restaurant, rating: rating)
         
     }
     
@@ -164,12 +136,7 @@ class RestaurantViewModel: ObservableObject {
         allComments[username] = comment
         restaurant.comments = allComments
         
-        comments_and_ratings[restaurant.id] = ["number_of_raters": restaurant.numOfRaters, "total_rating": restaurant.totalRatings, "comments": restaurant.comments]
-
-        if let data = try? JSONSerialization.data(withJSONObject: comments_and_ratings, options: []) {
-            UserDefaults.standard.set(data, forKey: "COMMENTS_AND_RATINGS")
-            print("saved comments and ratings")
-        }
+        restaurantRepository.updateComment(restaurant: restaurant, comment: comment)
     }
     
     

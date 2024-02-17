@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		FAAA36872B8013D700AE1318 /* RestaurantRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAAA36862B8013D700AE1318 /* RestaurantRepository.swift */; };
+		FAAA36892B8013E100AE1318 /* UserRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAAA36882B8013E100AE1318 /* UserRepository.swift */; };
 		FAB4DDC52B7D44C400FD1465 /* UserDefaultsKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAB4DDC42B7D44C400FD1465 /* UserDefaultsKeys.swift */; };
 		FADECB302B75C0DD004F4346 /* MADS4003_Proj_Gp4App.swift in Sources */ = {isa = PBXBuildFile; fileRef = FADECB2F2B75C0DD004F4346 /* MADS4003_Proj_Gp4App.swift */; };
 		FADECB322B75C0DD004F4346 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FADECB312B75C0DD004F4346 /* ContentView.swift */; };
@@ -49,6 +51,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		FAAA36862B8013D700AE1318 /* RestaurantRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RestaurantRepository.swift; sourceTree = "<group>"; };
+		FAAA36882B8013E100AE1318 /* UserRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserRepository.swift; sourceTree = "<group>"; };
 		FAB4DDC42B7D44C400FD1465 /* UserDefaultsKeys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsKeys.swift; sourceTree = "<group>"; };
 		FADECB2C2B75C0DD004F4346 /* MADS4003_Proj_Gp4.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MADS4003_Proj_Gp4.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FADECB2F2B75C0DD004F4346 /* MADS4003_Proj_Gp4App.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MADS4003_Proj_Gp4App.swift; sourceTree = "<group>"; };
@@ -104,6 +108,8 @@
 		FAAA36852B8006D000AE1318 /* Repositories */ = {
 			isa = PBXGroup;
 			children = (
+				FAAA36862B8013D700AE1318 /* RestaurantRepository.swift */,
+				FAAA36882B8013E100AE1318 /* UserRepository.swift */,
 			);
 			path = Repositories;
 			sourceTree = "<group>";
@@ -347,6 +353,7 @@
 				FADECB5B2B77BF80004F4346 /* LoginView.swift in Sources */,
 				FAB4DDC52B7D44C400FD1465 /* UserDefaultsKeys.swift in Sources */,
 				FADECB722B781D60004F4346 /* Constants.swift in Sources */,
+				FAAA36892B8013E100AE1318 /* UserRepository.swift in Sources */,
 				FADECB672B77E201004F4346 /* Restaurant.swift in Sources */,
 				FADECB632B77C26A004F4346 /* RestaurantListView.swift in Sources */,
 				FADECB322B75C0DD004F4346 /* ContentView.swift in Sources */,
@@ -355,6 +362,7 @@
 				FADECB6E2B7808EC004F4346 /* User.swift in Sources */,
 				FADECB742B797229004F4346 /* RestaurantItemView.swift in Sources */,
 				FADECB822B7A0272004F4346 /* MainView.swift in Sources */,
+				FAAA36872B8013D700AE1318 /* RestaurantRepository.swift in Sources */,
 				FADECB302B75C0DD004F4346 /* MADS4003_Proj_Gp4App.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

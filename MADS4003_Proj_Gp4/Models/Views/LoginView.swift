@@ -27,7 +27,7 @@ struct LoginView: View {
                 
                 ZStack{
                     
-                    Image(.imageLogin2)                                      .resizable()
+                    Image(.imageLogin2).resizable()
                                        .aspectRatio(contentMode: .fill)
                                        .frame(width: geo.size.width, height: geo.size.height)
                                        .edgesIgnoringSafeArea(.all)
